@@ -9,7 +9,7 @@ public class Orders {
     private List<Menu> menus;
 
     public Orders(List<Map<String, Integer>> orders) {
-        validateDuplicateMenu();
+        validateDuplicateMenu(orders);
         validateOverCount(orders);
         makeMenus(orders);
     }
@@ -21,12 +21,12 @@ public class Orders {
                 .collect(Collectors.toList());
     }
 
-    public void validateDuplicateMenu() {
-        Set<String> uniqueNames = menus.stream()
-                .map(Menu::getName)
+    public void validateDuplicateMenu(List<Map<String, Integer>> orders) {
+        Set<String> menuNames = orders.stream()
+                .flatMap(order -> order.keySet().stream())
                 .collect(Collectors.toSet());
 
-        if (uniqueNames.size() != menus.size()) {
+        if (menuNames.size() != orders.size()) {
             throw new IllegalArgumentException("중복된 메뉴가 존재합니다.");
         }
     }
