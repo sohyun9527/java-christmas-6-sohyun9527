@@ -27,4 +27,8 @@ public class Menu {
     public String getName() {
         return name;
     }
+
+    public int getCount() {
+        return count;
+    }
 }
