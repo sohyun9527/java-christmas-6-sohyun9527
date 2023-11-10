@@ -11,6 +11,7 @@ public class Orders {
     public Orders(List<Map<String, Integer>> orders) {
         validateDuplicateMenu(orders);
         validateOverCount(orders);
+        validateAllOrdersAreDrinks(orders);
         makeMenus(orders);
     }
 
@@ -31,6 +32,18 @@ public class Orders {
         }
     }
 
+    public void validateAllOrdersAreDrinks(List<Map<String, Integer>> orders) {
+        boolean allOrdersAreDrinks = orders.stream()
+                .flatMap(order -> order.keySet().stream())
+                .allMatch(menuName -> {
+                    MenuBoard menuBoard = MenuBoard.getByName(menuName);
+                    return menuBoard.getCategory() == Category.DRINK;
+                });
+        if (allOrdersAreDrinks) {
+            throw new IllegalArgumentException("음료만 주문하실 수 없습니다.");
+        }
+    }
+
     public void validateOverCount(List<Map<String, Integer>> orders) {
         int sum = orders.
                 stream()
@@ -40,7 +53,7 @@ public class Orders {
                         .sum())
                 .sum();
         if (sum > 20) {
-            throw new IllegalArgumentException("20개를 초과해서 주문하지마셈");
+            throw new IllegalArgumentException("20개를 초과해서 주문할 수 없습니다.");
         }
     }
 }
