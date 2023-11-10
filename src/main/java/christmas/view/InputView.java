@@ -28,7 +28,7 @@ public class InputView {
         }
     }
 
-    public static void validateOnlyDigit(String input) {
+    private void validateOnlyDigit(String input) {
         if (!input.chars().allMatch(Character::isDigit) || input.isEmpty()) {
             throw new NumberFormatException(INVALID_NUMBER_TYPE.getMessage());
         }
@@ -40,7 +40,7 @@ public class InputView {
         return getValidMenus(input);
     }
 
-    public List<Map<String, Integer>> getValidMenus(String orders) {
+    private List<Map<String, Integer>> getValidMenus(String orders) {
         return Arrays.stream(orders.split(DELIMITER))
                 .map(this::parseNameAndCount)
                 .map(this::createValidOrders)
