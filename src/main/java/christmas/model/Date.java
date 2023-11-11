@@ -42,4 +42,8 @@ public class Date {
         LocalDate localDate = LocalDate.of(YEAR, Month.DECEMBER, date);
         return localDate.getDayOfWeek();
     }
+
+    public int getDate() {
+        return date;
+    }
 }
