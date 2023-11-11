@@ -5,5 +5,6 @@ public enum Category {
     MAIN,
     DESSERT,
     APPETIZER,
+    NULL;
 
 }
