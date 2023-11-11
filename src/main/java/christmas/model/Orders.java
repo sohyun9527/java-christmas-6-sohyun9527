@@ -1,5 +1,7 @@
 package christmas.model;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +15,15 @@ public class Orders {
         validateOverCount(orders);
         validateAllOrdersAreDrinks(orders);
         makeMenus(orders);
+    }
+
+    public Map<MenuBoard, Integer> makeBill() {
+        Map<MenuBoard, Integer> orders = new LinkedHashMap<>();
+        for (Menu menu : menus) {
+            MenuBoard board = MenuBoard.getByName(menu.getName());
+            orders.put(board, menu.getCount());
+        }
+        return Collections.unmodifiableMap(orders);
     }
 
     public void makeMenus(List<Map<String, Integer>> orders) {
@@ -55,5 +66,9 @@ public class Orders {
         if (sum > 20) {
             throw new IllegalArgumentException("20개를 초과해서 주문할 수 없습니다.");
         }
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
     }
 }
