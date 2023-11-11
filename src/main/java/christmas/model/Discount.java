@@ -17,11 +17,13 @@ public class Discount {
 
     public List<Long> discountResult(long price, Date date) {
         List<Long> result = new ArrayList<>();
-        result.add(christmas(date));
-        result.add(commonDate(date));
-        result.add(weekendDate(date));
-        result.add(starDate(date));
-        result.add(promotion(price));
+        if (isOverEventPrice(price)) {
+            result.add(christmas(date));
+            result.add(commonDate(date));
+            result.add(weekendDate(date));
+            result.add(starDate(date));
+            result.add(promotion(price));
+        }
 
         return result;
     }
@@ -31,6 +33,10 @@ public class Discount {
             return MenuBoard.CHAMPAGNE.getPrice();
         }
         return 0;
+    }
+
+    public boolean isOverEventPrice(long price) {
+        return price >= 10000;
     }
 
     public long christmas(Date date) {
