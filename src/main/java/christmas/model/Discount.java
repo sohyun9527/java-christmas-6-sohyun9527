@@ -28,9 +28,7 @@ public class Discount {
 
     public long promotion(long price) {
         if (price >= 120000) {
-            int discountPrice = MenuBoard.CHAMPAGNE.getPrice();
-            totalDiscount += discountPrice;
-            return discountPrice;
+            return MenuBoard.CHAMPAGNE.getPrice();
         }
         return 0;
     }
