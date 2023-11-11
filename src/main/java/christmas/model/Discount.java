@@ -8,6 +8,8 @@ public class Discount {
     private static final int FIRST_DAY = 1;
     private static final int MINIMUM_UNIT = 1000;
     private static final int SALE_PRICE = 2023;
+    private static final int PROMOTION_PRICE = 120000;
+    private static final int MINIMUM_ORDER_PRICE = 10000;
     private final Map<MenuBoard, Integer> bill;
     private long totalDiscount;
 
@@ -15,7 +17,7 @@ public class Discount {
         this.bill = bill;
     }
 
-    public List<Long> discountResult(long price, Date date) {
+    public List<Long> result(long price, Date date) {
         List<Long> result = new ArrayList<>();
         if (isOverEventPrice(price)) {
             result.add(christmas(date));
@@ -28,18 +30,18 @@ public class Discount {
         return result;
     }
 
-    public long promotion(long price) {
-        if (price >= 120000) {
+    private long promotion(long price) {
+        if (price >= PROMOTION_PRICE) {
             return MenuBoard.CHAMPAGNE.getPrice();
         }
         return 0;
     }
 
-    public boolean isOverEventPrice(long price) {
-        return price >= 10000;
+    private boolean isOverEventPrice(long price) {
+        return price >= MINIMUM_ORDER_PRICE;
     }
 
-    public long christmas(Date date) {
+    private long christmas(Date date) {
         if (date.isBeforeChristmas()) {
             long discountPrice = MINIMUM_UNIT + (date.getDate() - FIRST_DAY) * 100L;
             totalDiscount += discountPrice;
@@ -48,7 +50,7 @@ public class Discount {
         return 0;
     }
 
-    public long commonDate(Date date) {
+    private long commonDate(Date date) {
         if (date.isCommonDate()) {
             long discountPrice = dessertCount() * SALE_PRICE;
             totalDiscount += discountPrice;
@@ -57,7 +59,7 @@ public class Discount {
         return 0;
     }
 
-    public long starDate(Date date) {
+    private long starDate(Date date) {
         if (date.isStarDate()) {
             long discountPrice = MINIMUM_UNIT;
             totalDiscount += discountPrice;
@@ -66,7 +68,7 @@ public class Discount {
         return 0;
     }
 
-    public long weekendDate(Date date) {
+    private long weekendDate(Date date) {
         if (date.isWeekend()) {
             long discountPrice = mainCount() * SALE_PRICE;
             totalDiscount += discountPrice;
@@ -81,14 +83,14 @@ public class Discount {
                 .sum();
     }
 
-    public long dessertCount() {
+    private long dessertCount() {
         return bill.entrySet().stream()
                 .filter(entry -> entry.getKey().getCategory() == Category.DESSERT)
                 .mapToLong(Map.Entry::getValue)
                 .sum();
     }
 
-    public long mainCount() {
+    private long mainCount() {
         return bill.entrySet().stream()
                 .filter(entry -> entry.getKey().getCategory() == Category.MAIN)
                 .mapToLong(Map.Entry::getValue)
