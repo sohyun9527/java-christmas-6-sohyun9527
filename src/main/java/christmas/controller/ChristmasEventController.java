@@ -8,7 +8,6 @@ import christmas.model.Promotion;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class ChristmasEventController {
@@ -16,27 +15,39 @@ public class ChristmasEventController {
     OutputView outputView = new OutputView();
 
     public void run() {
-
+        outputView.printStartMessage();
         Date date = getVisitDate();
-        outputView.printRequestOrder();
-        List<Map<String, Integer>> order = inputView.readOrders();
-        Orders orders = new Orders(order);
-        outputView.printEventPreview(date.getDate());
-        outputView.printOrders(orders.getMenus());
-        outputView.printBill(orders.getTotalPrice());
-        outputView.printPromotion(MenuBoard.getChampagne(orders.getTotalPrice()));
+        Orders orders = getOrders();
+        showOrderResult(orders, date);
+        showPromotionResult(orders, date);
+    }
+
+    private void showPromotionResult(Orders orders, Date date) {
+        outputView.printPromotion(MenuBoard.getChampagne(orders.beforeSalePrice()));
         Discount discount = new Discount(orders.makeBill());
-        List<Long> discountResult = discount.discountResult(orders.getTotalPrice(), date);
+        List<Long> discountResult = discount.result(orders.beforeSalePrice(), date);
         outputView.printDiscountResult(discountResult);
         outputView.printDiscountPrice(discountResult);
-        long afterDiscount = orders.getTotalPrice() - discount.getTotalDiscount();
+        long afterDiscount = orders.beforeSalePrice() - discount.getTotalDiscount();
         outputView.printAfterDiscountPrice(afterDiscount);
         outputView.printEventBadge(Promotion.getBadge(discountResult));
     }
 
+    private void showOrderResult(Orders orders, Date date) {
+        outputView.printEventPreview(date.getDate());
+        outputView.printOrders(orders.getMenus());
+        outputView.printBill(orders.beforeSalePrice());
+    }
+
+    private Orders getOrders() {
+        return untilValidReadValue(() -> {
+            outputView.printRequestOrder();
+            return new Orders(inputView.readOrders());
+        });
+    }
+
     private Date getVisitDate() {
         return untilValidReadValue(() -> {
-            outputView.printStartMessage();
             outputView.printRequestVisitDay();
             int visitDate = inputView.readVisitDay();
             return new Date(visitDate);
