@@ -18,14 +18,17 @@ public enum Promotion {
     }
 
     public static String getBadge(List<Long> discountResult) {
-        long price = discountResult.stream().mapToLong(Long::longValue).sum();
-        if (price >= SANTA.price) {
+        long discountPrice = discountResult.stream()
+                .mapToLong(Long::longValue)
+                .sum();
+
+        if (discountPrice >= SANTA.price) {
             return SANTA.name;
         }
-        if (price >= TREE.price) {
+        if (discountPrice >= TREE.price) {
             return TREE.name;
         }
-        if (price >= STAR.price) {
+        if (discountPrice >= STAR.price) {
             return STAR.name;
         }
         return NONE.name;
