@@ -93,9 +93,8 @@ public class OutputView {
         }
     }
 
-    public void printDiscountPrice(List<Long> result) {
+    public void printDiscountPrice(long price) {
         System.out.println(resultFormatter(DISCOUNT_PRICE.getMessage()));
-        long price = result.stream().mapToLong(Long::longValue).sum();
         System.out.println(priceFormatter(price));
 
     }
