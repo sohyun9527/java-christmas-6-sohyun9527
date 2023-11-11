@@ -77,12 +77,6 @@ public class Discount {
         return 0;
     }
 
-    public long beforeSalePrice() {
-        return bill.entrySet().stream()
-                .mapToLong(entry -> (long) entry.getKey().getPrice() * entry.getValue())
-                .sum();
-    }
-
     private long dessertCount() {
         return bill.entrySet().stream()
                 .filter(entry -> entry.getKey().getCategory() == Category.DESSERT)
