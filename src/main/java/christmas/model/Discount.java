@@ -9,6 +9,7 @@ public class Discount {
     private static final int MINIMUM_SALE = 1000;
     private static final int SALE_PRICE = 2023;
     private final Map<MenuBoard, Integer> bill;
+    private long totalDiscount;
 
     public Discount(Map<MenuBoard, Integer> bill) {
         this.bill = bill;
@@ -20,34 +21,52 @@ public class Discount {
         result.add(commonDate(date));
         result.add(weekendDate(date));
         result.add(starDate(price, date));
+        result.add(promotion(price));
 
         return result;
     }
 
+    public long promotion(long price) {
+        if (price >= 120000) {
+            int discountPrice = MenuBoard.CHAMPAGNE.getPrice();
+            totalDiscount += discountPrice;
+            return discountPrice;
+        }
+        return 0;
+    }
+
     public long christmas(Date date) {
         if (date.isBeforeChristmas()) {
-            return MINIMUM_SALE + (date.getDate() - FIRST_DAY) * 100L;
+            long discountPrice = MINIMUM_SALE + (date.getDate() - FIRST_DAY) * 100L;
+            totalDiscount += discountPrice;
+            return discountPrice;
         }
         return 0;
     }
 
     public long commonDate(Date date) {
         if (date.isCommonDate()) {
-            return dessertCount() * SALE_PRICE;
+            long discountPrice = dessertCount() * SALE_PRICE;
+            totalDiscount += discountPrice;
+            return discountPrice;
         }
         return 0;
     }
 
     public long starDate(long beforeDiscountPrice, Date date) {
         if (date.isStarDate()) {
-            return beforeDiscountPrice - MINIMUM_SALE;
+            long discountPrice = beforeDiscountPrice - MINIMUM_SALE;
+            totalDiscount += discountPrice;
+            return discountPrice;
         }
         return 0;
     }
 
     public long weekendDate(Date date) {
         if (date.isWeekend()) {
-            return mainCount() * SALE_PRICE;
+            long discountPrice = mainCount() * SALE_PRICE;
+            totalDiscount += discountPrice;
+            return discountPrice;
         }
         return 0;
     }
@@ -70,4 +89,7 @@ public class Discount {
                 .count();
     }
 
+    public long getTotalDiscount() {
+        return totalDiscount;
+    }
 }
