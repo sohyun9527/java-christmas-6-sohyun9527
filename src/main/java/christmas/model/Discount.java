@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Discount {
     private static final int FIRST_DAY = 1;
-    private static final int MINIMUM_SALE = 1000;
+    private static final int MINIMUM_UNIT = 1000;
     private static final int SALE_PRICE = 2023;
     private final Map<MenuBoard, Integer> bill;
     private long totalDiscount;
@@ -20,7 +20,7 @@ public class Discount {
         result.add(christmas(date));
         result.add(commonDate(date));
         result.add(weekendDate(date));
-        result.add(starDate(price, date));
+        result.add(starDate(date));
         result.add(promotion(price));
 
         return result;
@@ -37,7 +37,7 @@ public class Discount {
 
     public long christmas(Date date) {
         if (date.isBeforeChristmas()) {
-            long discountPrice = MINIMUM_SALE + (date.getDate() - FIRST_DAY) * 100L;
+            long discountPrice = MINIMUM_UNIT + (date.getDate() - FIRST_DAY) * 100L;
             totalDiscount += discountPrice;
             return discountPrice;
         }
@@ -53,9 +53,9 @@ public class Discount {
         return 0;
     }
 
-    public long starDate(long beforeDiscountPrice, Date date) {
+    public long starDate(Date date) {
         if (date.isStarDate()) {
-            long discountPrice = beforeDiscountPrice - MINIMUM_SALE;
+            long discountPrice = MINIMUM_UNIT;
             totalDiscount += discountPrice;
             return discountPrice;
         }
@@ -80,13 +80,15 @@ public class Discount {
     public long dessertCount() {
         return bill.entrySet().stream()
                 .filter(entry -> entry.getKey().getCategory() == Category.DESSERT)
-                .count();
+                .mapToLong(Map.Entry::getValue)
+                .sum();
     }
 
     public long mainCount() {
         return bill.entrySet().stream()
                 .filter(entry -> entry.getKey().getCategory() == Category.MAIN)
-                .count();
+                .mapToLong(Map.Entry::getValue)
+                .sum();
     }
 
     public long getTotalDiscount() {
