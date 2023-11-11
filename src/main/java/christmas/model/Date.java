@@ -26,7 +26,8 @@ public class Date {
     }
 
     public boolean isCommonDate() {
-        return getLocalDate().compareTo(DayOfWeek.FRIDAY) < 0;
+        DayOfWeek day = getLocalDate();
+        return day != DayOfWeek.FRIDAY && day != DayOfWeek.SATURDAY;
     }
 
     public boolean isWeekend() {
