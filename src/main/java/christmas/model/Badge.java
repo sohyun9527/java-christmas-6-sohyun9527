@@ -2,7 +2,7 @@ package christmas.model;
 
 import java.util.List;
 
-public enum Promotion {
+public enum Badge {
     SANTA("산타", 20000),
     TREE("트리", 10000),
     STAR("별", 5000),
@@ -12,7 +12,7 @@ public enum Promotion {
     private final String name;
     private final int price;
 
-    Promotion(String name, int price) {
+    Badge(String name, int price) {
         this.name = name;
         this.price = price;
     }
