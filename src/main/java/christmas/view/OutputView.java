@@ -54,5 +54,23 @@ public class OutputView {
         }
     }
 
+    public void printDiscountPrice(List<Long> result) {
+        System.out.println("<총혜택 금액>");
+        long price = result.stream().mapToLong(Long::longValue).sum();
+        System.out.println(price + "원");
+
+    }
+
+    public void printAfterDiscountPrice(long price) {
+        System.out.println("<할인 후 예상 결제 금액>");
+        DecimalFormat df = new DecimalFormat("#,###원");
+        String format = df.format(price);
+        System.out.println(format);
+    }
+
+    public void printEventBadge(String badge) {
+        System.out.println("<12월 이벤트 배지>");
+        System.out.println(badge);
+    }
 
 }
