@@ -1,6 +1,8 @@
 package christmas.model;
 
 
+import static christmas.view.message.ErrorMessage.INVALID_DATE_RANGE;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
@@ -17,7 +19,7 @@ public class Date {
 
     private void validateDateRange(int date) {
         if (date < 1 || date > 31) {
-            throw new IllegalArgumentException("1 ~ 31일 중 날짜를 택해주세요.");
+            throw new IllegalArgumentException(INVALID_DATE_RANGE.getMessage());
         }
     }
 

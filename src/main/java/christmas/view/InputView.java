@@ -1,8 +1,7 @@
 package christmas.view;
 
 import static christmas.view.message.ErrorMessage.INVALID_BLANK;
-import static christmas.view.message.ErrorMessage.INVALID_NAME_COUNT_TYPE;
-import static christmas.view.message.ErrorMessage.INVALID_NUMBER_TYPE;
+import static christmas.view.message.ErrorMessage.INVALID_ORDER;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class InputView {
 
     private void validateOnlyDigit(String input) {
         if (!input.chars().allMatch(Character::isDigit) || input.isEmpty()) {
-            throw new NumberFormatException(INVALID_NUMBER_TYPE.getMessage());
+            throw new NumberFormatException(INVALID_ORDER.getMessage());
         }
     }
 
@@ -65,7 +64,7 @@ public class InputView {
 
     private void validateNameAndCountLength(List<String> order) {
         if (order.size() != VALID_SIZE) {
-            throw new IllegalArgumentException(INVALID_NAME_COUNT_TYPE.getMessage());
+            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
     }
 

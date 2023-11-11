@@ -1,5 +1,7 @@
 package christmas.model;
 
+import static christmas.view.message.ErrorMessage.INVALID_ORDER;
+
 public class Menu {
     private static final int MINIMUM_COUNT = 1;
     private final String name;
@@ -14,13 +16,13 @@ public class Menu {
 
     private void validateOrderCount(int count) {
         if (count < MINIMUM_COUNT) {
-            throw new IllegalArgumentException("최소 1개 이상 주문해야합니다.");
+            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
     }
 
     private void validateContainMenu(String name) {
-        if (MenuBoard.getByName(name) == null) {
-            throw new IllegalArgumentException(name + "은 존재하지 않는 메뉴입니다.");
+        if (MenuBoard.getByName(name) == MenuBoard.NONE) {
+            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
     }
 

@@ -1,5 +1,9 @@
 package christmas.model;
 
+import static christmas.view.message.ErrorMessage.CANT_ONLY_DRINKS_ORDER;
+import static christmas.view.message.ErrorMessage.INVALID_ORDER;
+import static christmas.view.message.ErrorMessage.OVER_QUANTITY_ORDER;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,7 +56,7 @@ public class Orders {
                 .collect(Collectors.toSet());
 
         if (menuNames.size() != orders.size()) {
-            throw new IllegalArgumentException("중복된 메뉴가 존재합니다.");
+            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
         }
     }
 
@@ -64,7 +68,7 @@ public class Orders {
                     return menuBoard.getCategory() == Category.DRINK;
                 });
         if (allOrdersAreDrinks) {
-            throw new IllegalArgumentException("음료만 주문하실 수 없습니다.");
+            throw new IllegalArgumentException(CANT_ONLY_DRINKS_ORDER.getMessage());
         }
     }
 
@@ -77,7 +81,7 @@ public class Orders {
                         .sum())
                 .sum();
         if (sum > 20) {
-            throw new IllegalArgumentException("20개를 초과해서 주문할 수 없습니다.");
+            throw new IllegalArgumentException(OVER_QUANTITY_ORDER.getMessage());
         }
     }
 
