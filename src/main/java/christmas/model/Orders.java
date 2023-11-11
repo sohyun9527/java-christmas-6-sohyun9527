@@ -30,7 +30,7 @@ public class Orders {
         return Collections.unmodifiableMap(orders);
     }
 
-    public long beforeSalePrice() {
+    public long totalAmount() {
         return menus.stream()
                 .mapToLong(menu ->
                         (long) MenuBoard.getByName(menu.getName()).getPrice() * menu.getCount())
