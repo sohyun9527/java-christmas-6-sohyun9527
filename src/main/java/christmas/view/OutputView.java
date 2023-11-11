@@ -22,6 +22,12 @@ public class OutputView {
         System.out.println(REQUEST_MENU_COUNT);
     }
 
+    public void printEventPreview(int day) {
+        String message = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+        String result = String.format(message, day);
+        System.out.println(result);
+    }
+
     public void printOrders(List<Menu> orders) {
         System.out.println("<주문 메뉴>");
         for (Menu menu : orders) {
@@ -41,6 +47,10 @@ public class OutputView {
 
     public void printDiscountResult(List<Long> discountPrice) {
         System.out.println("<혜택 내역>");
+        if (discountPrice.isEmpty()) {
+            System.out.println("없음");
+            return;
+        }
         DecimalFormat df = new DecimalFormat("#,###원");
         List<String> discountTypes = List.of("크리스마스 할인: ", "평일 할인: ", "주말 할인: ", "특별 할인: ", "증정 이벤트: ");
 

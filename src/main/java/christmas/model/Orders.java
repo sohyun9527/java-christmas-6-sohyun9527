@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 
 public class Orders {
     private List<Menu> menus;
+    private long totalPrice;
 
     public Orders(List<Map<String, Integer>> orders) {
         validateDuplicateMenu(orders);
         validateOverCount(orders);
         validateAllOrdersAreDrinks(orders);
         makeMenus(orders);
+        totalPrice();
     }
 
     public Map<MenuBoard, Integer> makeBill() {
@@ -24,6 +26,17 @@ public class Orders {
             orders.put(board, menu.getCount());
         }
         return Collections.unmodifiableMap(orders);
+    }
+
+    public void totalPrice() {
+        totalPrice = beforeSalePrice();
+    }
+
+    public long beforeSalePrice() {
+        return menus.stream()
+                .mapToLong(menu ->
+                        (long) MenuBoard.getByName(menu.getName()).getPrice() * menu.getCount())
+                .sum();
     }
 
     public void makeMenus(List<Map<String, Integer>> orders) {
@@ -70,5 +83,9 @@ public class Orders {
 
     public List<Menu> getMenus() {
         return menus;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
     }
 }
