@@ -13,14 +13,12 @@ import java.util.stream.Collectors;
 
 public class Orders {
     private List<Menu> menus;
-    private long totalPrice;
 
     public Orders(List<Map<String, Integer>> orders) {
         validateDuplicateMenu(orders);
         validateOverCount(orders);
         validateAllOrdersAreDrinks(orders);
         makeMenus(orders);
-        totalPrice();
     }
 
     public Map<MenuBoard, Integer> makeBill() {
@@ -30,10 +28,6 @@ public class Orders {
             orders.put(board, menu.getCount());
         }
         return Collections.unmodifiableMap(orders);
-    }
-
-    public void totalPrice() {
-        totalPrice = beforeSalePrice();
     }
 
     public long beforeSalePrice() {
@@ -89,7 +83,4 @@ public class Orders {
         return menus;
     }
 
-    public long getTotalPrice() {
-        return totalPrice;
-    }
 }
