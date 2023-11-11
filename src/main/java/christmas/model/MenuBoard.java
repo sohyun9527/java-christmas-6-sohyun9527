@@ -17,6 +17,7 @@ public enum MenuBoard {
     CHAMPAGNE("샴페인", 25000, Category.DRINK),
     NONE("없음", 0, Category.NULL);
 
+    private static final int CHAMPAGNE_PROMOTION = 120_000;
     private final String name;
     private final int price;
     private final Category category;
@@ -31,19 +32,14 @@ public enum MenuBoard {
         return Arrays.stream(MenuBoard.values())
                 .filter(item -> item.name.equals(menu))
                 .findFirst()
-                .orElse(null);
+                .orElse(NONE);
     }
 
     public static MenuBoard getChampagne(long price) {
-        if (price >= 120000) {
+        if (price >= CHAMPAGNE_PROMOTION) {
             return MenuBoard.CHAMPAGNE;
         }
         return MenuBoard.NONE;
-    }
-
-    public static boolean isDrinkCategory(String name) {
-        MenuBoard menu = getByName(name);
-        return menu.getCategory() == Category.DRINK;
     }
 
     public String getName() {
