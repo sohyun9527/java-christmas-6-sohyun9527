@@ -1,17 +1,5 @@
 package christmas.view;
 
-import static christmas.view.message.Message.BADGE;
-import static christmas.view.message.Message.BEFORE_DISCOUNT;
-import static christmas.view.message.Message.COUNT;
-import static christmas.view.message.Message.DISCOUNT_PAYMENT;
-import static christmas.view.message.Message.DISCOUNT_PRICE;
-import static christmas.view.message.Message.DISCOUNT_RESULT;
-import static christmas.view.message.Message.NONE;
-import static christmas.view.message.Message.ORDER;
-import static christmas.view.message.Message.PROMOTION;
-import static christmas.view.message.Message.SHOW_EVENT_MESSAGE;
-import static christmas.view.message.Message.START_MESSAGE;
-
 import christmas.model.Menu;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -20,55 +8,37 @@ public class OutputView {
     private static final String PREFIX = "<";
     private static final String POSTFIX = ">";
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-
-    public void printNewLine() {
-        System.out.println();
-    }
-
     public void printStartMessage() {
-        System.out.println(START_MESSAGE.getMessage());
+        System.out.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
     }
 
     public void printEventPreview(int day) {
-        String message = SHOW_EVENT_MESSAGE.getMessage();
+        String message = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
         String result = String.format(message, day);
         System.out.println(result);
     }
 
     public void printOrders(List<Menu> orders) {
-        resultFormatter(ORDER.getMessage());
+        System.out.println(resultFormatter("주문 메뉴"));
         for (Menu menu : orders) {
-            System.out.println(menu.getName() + " " + menu.getCount() + COUNT.getMessage());
+            System.out.println(menu.getName() + " " + menu.getCount() + "개");
         }
     }
 
     public void printBill(long price) {
-        System.out.println(resultFormatter(BEFORE_DISCOUNT.getMessage()));
+        System.out.println(resultFormatter("할인 전 총주문 금액"));
         System.out.println(priceFormatter(price));
     }
 
     public void printPromotion(String promotionResult) {
-        System.out.println(resultFormatter(PROMOTION.getMessage()));
+        System.out.println(resultFormatter("증정 메뉴"));
         System.out.println(promotionResult);
     }
 
-    public String priceFormatter(long price) {
-        DecimalFormat decimalFormat = new DecimalFormat("#,###원");
-        return decimalFormat.format(price);
-    }
-
-    public String resultFormatter(String message) {
-        printNewLine();
-        return PREFIX + message + POSTFIX;
-    }
-
     public void printDiscountResult(List<Long> discountPrice) {
-        System.out.println(resultFormatter(DISCOUNT_RESULT.getMessage()));
+        System.out.println(resultFormatter("혜택 내역"));
         if (discountPrice.isEmpty()) {
-            System.out.println(NONE.getMessage());
+            System.out.println("없음");
             return;
         }
         List<String> discountTypes = List.of("크리스마스 할인:", "평일 할인:", "주말 할인:", "특별 할인:", "증정 이벤트:");
@@ -84,19 +54,28 @@ public class OutputView {
     }
 
     public void printDiscountPrice(long price) {
-        System.out.println(resultFormatter(DISCOUNT_PRICE.getMessage()));
+        System.out.println(resultFormatter("총혜택 금액"));
         System.out.println(priceFormatter(price));
 
     }
 
     public void printAfterDiscountPrice(long price) {
-        System.out.println(resultFormatter(DISCOUNT_PAYMENT.getMessage()));
+        System.out.println(resultFormatter("할인 후 예상 결제 금액"));
         System.out.println(priceFormatter(price));
     }
 
     public void printEventBadge(String badge) {
-        System.out.println(resultFormatter(BADGE.getMessage()));
+        System.out.println(resultFormatter("12월 이벤트 배지"));
         System.out.println(badge);
     }
 
+    public String priceFormatter(long price) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###원");
+        return decimalFormat.format(price);
+    }
+
+    public String resultFormatter(String message) {
+        System.out.println();
+        return PREFIX + message + POSTFIX;
+    }
 }
