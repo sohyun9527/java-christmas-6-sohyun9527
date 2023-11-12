@@ -1,6 +1,7 @@
 package christmas.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -83,5 +84,17 @@ class DiscountTest {
         long totalBenefitAmount = discount.getTotalBenefitAmount(); // 혜택 가격은 샴페인 가격 미포함
 
         assertThat(totalAmount - totalBenefitAmount).isEqualTo(25000);
+    }
+
+    @DisplayName("120,000원을 넘지 못한다면 반환되는 값은 없음 이다")
+    @Test
+    void champagnePromotion() {
+        EventDate eventDate = new EventDate(31);
+        String nothing = discount.champagnePromotion(119999);
+        String champagne = discount.champagnePromotion(totalAmount);
+
+        assertEquals(nothing, "없음");
+        assertEquals(champagne, "샴페인");
+
     }
 }
