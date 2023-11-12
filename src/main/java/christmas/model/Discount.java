@@ -67,7 +67,7 @@ public class Discount {
     }
 
     private long weekDay(EventDate eventDate) {
-        if (eventDate.isCommonDate()) {
+        if (eventDate.isWeekend()) {
             long discountPrice = dessertCategoryCount() * SALE_PRICE;
             totalBenefitAmount += discountPrice;
             return discountPrice;
@@ -76,7 +76,7 @@ public class Discount {
     }
 
     private long weekend(EventDate eventDate) {
-        if (eventDate.isWeekend()) {
+        if (!eventDate.isWeekend()) {
             long discountPrice = mainCategoryCount() * SALE_PRICE;
             totalBenefitAmount += discountPrice;
             return discountPrice;

@@ -27,14 +27,9 @@ public class EventDate {
         return date <= 25;
     }
 
-    public boolean isCommonDate() {
-        DayOfWeek day = getLocalDate();
-        return day != DayOfWeek.FRIDAY && day != DayOfWeek.SATURDAY;
-    }
-
     public boolean isWeekend() {
-        return getLocalDate().equals(DayOfWeek.FRIDAY)
-                || getLocalDate().equals(DayOfWeek.SATURDAY);
+        DayOfWeek dayOfWeek = getLocalDate();
+        return dayOfWeek.equals(DayOfWeek.FRIDAY) || dayOfWeek.equals(DayOfWeek.SATURDAY);
     }
 
     public boolean isStarDate() {
