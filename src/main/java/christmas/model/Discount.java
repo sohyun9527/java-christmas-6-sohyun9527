@@ -11,7 +11,7 @@ public class Discount {
     private static final int MINIMUM_ORDER_PRICE = 10_000;
 
     private final List<Menu> orders;
-    private long totalDiscount;
+    private long totalBenefitAmount;
 
     public Discount(List<Menu> order) {
         this.orders = order;
@@ -44,7 +44,7 @@ public class Discount {
     private long starDate(EventDate eventDate) {
         if (eventDate.isStarDate()) {
             long discountPrice = MINIMUM_UNIT;
-            totalDiscount += discountPrice;
+            totalBenefitAmount += discountPrice;
             return discountPrice;
         }
         return 0;
@@ -53,7 +53,7 @@ public class Discount {
     private long christmas(EventDate eventDate) {
         if (eventDate.isBeforeChristmas()) {
             long discountPrice = MINIMUM_UNIT + (eventDate.getDate() - FIRST_DAY) * 100L;
-            totalDiscount += discountPrice;
+            totalBenefitAmount += discountPrice;
             return discountPrice;
         }
         return 0;
@@ -61,8 +61,8 @@ public class Discount {
 
     private long weekDay(EventDate eventDate) {
         if (eventDate.isCommonDate()) {
-            long discountPrice = dessertCount() * SALE_PRICE;
-            totalDiscount += discountPrice;
+            long discountPrice = dessertCategoryCount() * SALE_PRICE;
+            totalBenefitAmount += discountPrice;
             return discountPrice;
         }
         return 0;
@@ -70,28 +70,28 @@ public class Discount {
 
     private long weekend(EventDate eventDate) {
         if (eventDate.isWeekend()) {
-            long discountPrice = mainCount() * SALE_PRICE;
-            totalDiscount += discountPrice;
+            long discountPrice = mainCategoryCount() * SALE_PRICE;
+            totalBenefitAmount += discountPrice;
             return discountPrice;
         }
         return 0;
     }
 
-    private long dessertCount() {
+    private long dessertCategoryCount() {
         return orders.stream()
                 .filter(Menu::isDessertCategory)
                 .mapToLong(Menu::getCount)
                 .sum();
     }
 
-    private long mainCount() {
+    private long mainCategoryCount() {
         return orders.stream()
                 .filter(Menu::isMainCategory)
                 .mapToLong(Menu::getCount)
                 .sum();
     }
 
-    public long getTotalDiscount() {
-        return totalDiscount;
+    public long getTotalBenefitAmount() {
+        return totalBenefitAmount;
     }
 }
