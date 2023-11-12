@@ -78,4 +78,5 @@ public class OutputView {
         System.out.println();
         return PREFIX + message + POSTFIX;
     }
+
 }

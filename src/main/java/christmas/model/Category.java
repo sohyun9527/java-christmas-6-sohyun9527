@@ -6,5 +6,4 @@ public enum Category {
     DESSERT,
     APPETIZER,
     NULL;
-
 }

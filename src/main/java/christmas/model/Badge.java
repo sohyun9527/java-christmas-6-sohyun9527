@@ -15,7 +15,6 @@ public enum Badge {
     }
 
     public static String getBadge(long discountPrice) {
-
         if (discountPrice >= SANTA.price) {
             return SANTA.name;
         }

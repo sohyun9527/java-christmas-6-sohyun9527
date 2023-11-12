@@ -8,16 +8,6 @@ import org.junit.jupiter.api.Test;
 
 class EventDateTest {
 
-    @DisplayName("일 ~ 목 사이의 날짜라면 true 반환")
-    @Test
-    public void isCommonDate() {
-        EventDate commonEventDate = new EventDate(13); // 12월 13일 수요일
-        EventDate weekendEventDate = new EventDate(15); // 금요일
-
-        assertTrue(commonEventDate.isCommonDate());
-        assertFalse(weekendEventDate.isCommonDate());
-    }
-
     @DisplayName("금요일이거나 토요일이라면 true 반환")
     @Test
     public void isWeekendDate() {

@@ -38,12 +38,6 @@ public class InputView {
         }
     }
 
-    private void validateOnlyDigit(String input) {
-        if (!input.chars().allMatch(Character::isDigit) || input.isEmpty()) {
-            throw new NumberFormatException(INVALID_ORDER.getMessage());
-        }
-    }
-
     public List<Map<String, Integer>> readOrders() {
         System.out.println(REQUEST_ORDER_MESSAGE);
         String input = Console.readLine();
@@ -85,4 +79,9 @@ public class InputView {
         return Integer.parseInt(count);
     }
 
+    private void validateOnlyDigit(String input) {
+        if (!input.chars().allMatch(Character::isDigit) || input.isEmpty()) {
+            throw new NumberFormatException(INVALID_ORDER.getMessage());
+        }
+    }
 }
