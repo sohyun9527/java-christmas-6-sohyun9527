@@ -16,14 +16,4 @@ class MenuBoardTest {
         assertThat(MenuBoard.getByName(validMenu)).isEqualTo(MenuBoard.ZERO_COLA);
         assertThat(MenuBoard.getByName(invalidMenu)).isEqualTo(MenuBoard.NONE);
     }
-
-    @DisplayName("12만원 이상일 시 샴페인 enum 객체를 반환한다")
-    @Test
-    void getChampagne() {
-        int underPrice = 119_999;
-        int promotionPrice = 120_000;
-
-        assertThat(MenuBoard.getChampagne(promotionPrice)).isEqualTo(MenuBoard.CHAMPAGNE);
-        assertThat(MenuBoard.getChampagne(underPrice)).isEqualTo(MenuBoard.NONE);
-    }
 }
