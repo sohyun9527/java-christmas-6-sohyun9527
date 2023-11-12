@@ -2,28 +2,28 @@ package christmas.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Discount {
     private static final int FIRST_DAY = 1;
     private static final int MINIMUM_UNIT = 1000;
     private static final int SALE_PRICE = 2023;
-    private static final int PROMOTION_PRICE = 120000;
-    private static final int MINIMUM_ORDER_PRICE = 10000;
-    private final Map<MenuBoard, Integer> bill;
+    private static final int PROMOTION_PRICE = 120_000;
+    private static final int MINIMUM_ORDER_PRICE = 10_000;
+
+    private final List<Menu> orders;
     private long totalDiscount;
 
-    public Discount(Map<MenuBoard, Integer> bill) {
-        this.bill = bill;
+    public Discount(List<Menu> order) {
+        this.orders = order;
     }
 
-    public List<Long> result(long price, Date date) {
+    public List<Long> result(long price, EventDate eventDate) {
         List<Long> result = new ArrayList<>();
         if (isOverEventPrice(price)) {
-            result.add(christmas(date));
-            result.add(commonDate(date));
-            result.add(weekendDate(date));
-            result.add(starDate(date));
+            result.add(christmas(eventDate));
+            result.add(weekDay(eventDate));
+            result.add(weekend(eventDate));
+            result.add(starDate(eventDate));
             result.add(promotion(price));
         }
 
@@ -41,26 +41,8 @@ public class Discount {
         return price >= MINIMUM_ORDER_PRICE;
     }
 
-    private long christmas(Date date) {
-        if (date.isBeforeChristmas()) {
-            long discountPrice = MINIMUM_UNIT + (date.getDate() - FIRST_DAY) * 100L;
-            totalDiscount += discountPrice;
-            return discountPrice;
-        }
-        return 0;
-    }
-
-    private long commonDate(Date date) {
-        if (date.isCommonDate()) {
-            long discountPrice = dessertCount() * SALE_PRICE;
-            totalDiscount += discountPrice;
-            return discountPrice;
-        }
-        return 0;
-    }
-
-    private long starDate(Date date) {
-        if (date.isStarDate()) {
+    private long starDate(EventDate eventDate) {
+        if (eventDate.isStarDate()) {
             long discountPrice = MINIMUM_UNIT;
             totalDiscount += discountPrice;
             return discountPrice;
@@ -68,8 +50,26 @@ public class Discount {
         return 0;
     }
 
-    private long weekendDate(Date date) {
-        if (date.isWeekend()) {
+    private long christmas(EventDate eventDate) {
+        if (eventDate.isBeforeChristmas()) {
+            long discountPrice = MINIMUM_UNIT + (eventDate.getDate() - FIRST_DAY) * 100L;
+            totalDiscount += discountPrice;
+            return discountPrice;
+        }
+        return 0;
+    }
+
+    private long weekDay(EventDate eventDate) {
+        if (eventDate.isCommonDate()) {
+            long discountPrice = dessertCount() * SALE_PRICE;
+            totalDiscount += discountPrice;
+            return discountPrice;
+        }
+        return 0;
+    }
+
+    private long weekend(EventDate eventDate) {
+        if (eventDate.isWeekend()) {
             long discountPrice = mainCount() * SALE_PRICE;
             totalDiscount += discountPrice;
             return discountPrice;
@@ -78,17 +78,11 @@ public class Discount {
     }
 
     private long dessertCount() {
-        return bill.entrySet().stream()
-                .filter(entry -> entry.getKey().getCategory() == Category.DESSERT)
-                .mapToLong(Map.Entry::getValue)
-                .sum();
+        return orders.stream().filter(Menu::isDessert).count();
     }
 
     private long mainCount() {
-        return bill.entrySet().stream()
-                .filter(entry -> entry.getKey().getCategory() == Category.MAIN)
-                .mapToLong(Map.Entry::getValue)
-                .sum();
+        return orders.stream().filter(Menu::isMain).count();
     }
 
     public long getTotalDiscount() {
