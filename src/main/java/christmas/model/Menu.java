@@ -28,11 +28,11 @@ public class Menu {
         }
     }
 
-    public boolean isDessert() {
+    public boolean isDessertCategory() {
         return this.category.equals(Category.DESSERT);
     }
 
-    public boolean isMain() {
+    public boolean isMainCategory() {
         return this.category.equals(Category.MAIN);
     }
 
