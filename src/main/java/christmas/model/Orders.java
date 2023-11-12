@@ -4,6 +4,7 @@ import static christmas.view.message.ErrorMessage.CANT_ONLY_DRINKS_ORDER;
 import static christmas.view.message.ErrorMessage.INVALID_ORDER;
 import static christmas.view.message.ErrorMessage.OVER_QUANTITY_ORDER;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -70,6 +71,6 @@ public class Orders {
     }
 
     public List<Menu> getMenus() {
-        return menus;
+        return Collections.unmodifiableList(menus);
     }
 }
