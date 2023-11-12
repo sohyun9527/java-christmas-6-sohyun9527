@@ -33,8 +33,8 @@ public class InputView {
     private int getValidateDate(String input) {
         try {
             return Integer.parseInt(input);
-        } catch (Exception e) {
-            throw new NumberFormatException(INVALID_DATE.getMessage());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_DATE.getMessage());
         }
     }
 
