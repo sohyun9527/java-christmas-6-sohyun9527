@@ -1,6 +1,7 @@
 package christmas.view;
 
 import static christmas.view.message.ErrorMessage.INVALID_BLANK;
+import static christmas.view.message.ErrorMessage.INVALID_DATE;
 import static christmas.view.message.ErrorMessage.INVALID_ORDER;
 
 import camp.nextstep.edu.missionutils.Console;
@@ -10,20 +11,30 @@ import java.util.List;
 import java.util.Map;
 
 public class InputView {
+    private static final String VISIT_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
+    private static final String REQUEST_ORDER_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
     private static final String DELIMITER = ",";
     private static final String DASH = "-";
     private static final int VALID_SIZE = 2;
 
     public int readVisitDay() {
+        System.out.println(VISIT_DATE_MESSAGE);
         String input = Console.readLine();
         validateEmptyLine(input);
-        validateOnlyDigit(input);
-        return Integer.parseInt(input);
+        return getValidateDate(input);
     }
 
     private void validateEmptyLine(String input) {
         if (input.trim().isEmpty()) {
             throw new IllegalArgumentException(INVALID_BLANK.getMessage());
+        }
+    }
+
+    private int getValidateDate(String input) {
+        try {
+            return Integer.parseInt(input);
+        } catch (Exception e) {
+            throw new NumberFormatException(INVALID_DATE.getMessage());
         }
     }
 
@@ -34,6 +45,7 @@ public class InputView {
     }
 
     public List<Map<String, Integer>> readOrders() {
+        System.out.println(REQUEST_ORDER_MESSAGE);
         String input = Console.readLine();
         validateEmptyLine(input);
         return getValidMenus(input);

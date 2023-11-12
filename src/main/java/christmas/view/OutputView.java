@@ -9,8 +9,6 @@ import static christmas.view.message.Message.DISCOUNT_RESULT;
 import static christmas.view.message.Message.NONE;
 import static christmas.view.message.Message.ORDER;
 import static christmas.view.message.Message.PROMOTION;
-import static christmas.view.message.Message.REQUEST_MENU_COUNT;
-import static christmas.view.message.Message.REQUEST_VISIT_DAY;
 import static christmas.view.message.Message.SHOW_EVENT_MESSAGE;
 import static christmas.view.message.Message.START_MESSAGE;
 
@@ -35,14 +33,6 @@ public class OutputView {
         System.out.println(START_MESSAGE.getMessage());
     }
 
-    public void printRequestVisitDay() {
-        System.out.println(REQUEST_VISIT_DAY.getMessage());
-    }
-
-    public void printRequestOrder() {
-        System.out.println(REQUEST_MENU_COUNT.getMessage());
-    }
-
     public void printEventPreview(int day) {
         String message = SHOW_EVENT_MESSAGE.getMessage();
         String result = String.format(message, day);
@@ -50,7 +40,7 @@ public class OutputView {
     }
 
     public void printOrders(List<Menu> orders) {
-        System.out.println("\n" + PREFIX + ORDER.getMessage() + POSTFIX);
+        resultFormatter(ORDER.getMessage());
         for (Menu menu : orders) {
             System.out.println(menu.getName() + " " + menu.getCount() + COUNT.getMessage());
         }
@@ -72,7 +62,8 @@ public class OutputView {
     }
 
     public String resultFormatter(String message) {
-        return "\n" + PREFIX + message + POSTFIX;
+        printNewLine();
+        return PREFIX + message + POSTFIX;
     }
 
     public void printDiscountResult(List<Long> discountPrice) {
