@@ -78,11 +78,17 @@ public class Discount {
     }
 
     private long dessertCount() {
-        return orders.stream().filter(Menu::isDessert).count();
+        return orders.stream()
+                .filter(Menu::isDessert)
+                .mapToLong(Menu::getCount)
+                .sum();
     }
 
     private long mainCount() {
-        return orders.stream().filter(Menu::isMain).count();
+        return orders.stream()
+                .filter(Menu::isMain)
+                .mapToLong(Menu::getCount)
+                .sum();
     }
 
     public long getTotalDiscount() {
