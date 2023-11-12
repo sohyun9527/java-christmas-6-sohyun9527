@@ -79,14 +79,14 @@ public class Discount {
 
     private long dessertCount() {
         return orders.stream()
-                .filter(Menu::isDessert)
+                .filter(Menu::isDessertCategory)
                 .mapToLong(Menu::getCount)
                 .sum();
     }
 
     private long mainCount() {
         return orders.stream()
-                .filter(Menu::isMain)
+                .filter(Menu::isMainCategory)
                 .mapToLong(Menu::getCount)
                 .sum();
     }
