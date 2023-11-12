@@ -4,14 +4,13 @@ import static christmas.view.message.ErrorMessage.CANT_ONLY_DRINKS_ORDER;
 import static christmas.view.message.ErrorMessage.INVALID_ORDER;
 import static christmas.view.message.ErrorMessage.OVER_QUANTITY_ORDER;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Orders {
+    private static final int MAXIMUM_COUNT = 20;
     private List<Menu> menus;
 
     public Orders(List<Map<String, Integer>> orders) {
@@ -19,15 +18,6 @@ public class Orders {
         validateOverCount(orders);
         validateAllOrdersAreDrinks(orders);
         makeMenus(orders);
-    }
-
-    public Map<MenuBoard, Integer> makeBill() {
-        Map<MenuBoard, Integer> orders = new LinkedHashMap<>();
-        for (Menu menu : menus) {
-            MenuBoard board = MenuBoard.getByName(menu.getName());
-            orders.put(board, menu.getCount());
-        }
-        return Collections.unmodifiableMap(orders);
     }
 
     public long totalAmount() {
@@ -74,7 +64,7 @@ public class Orders {
                         .mapToInt(Integer::intValue)
                         .sum())
                 .sum();
-        if (sum > 20) {
+        if (sum > MAXIMUM_COUNT) {
             throw new IllegalArgumentException(OVER_QUANTITY_ORDER.getMessage());
         }
     }
@@ -82,5 +72,4 @@ public class Orders {
     public List<Menu> getMenus() {
         return menus;
     }
-
 }
