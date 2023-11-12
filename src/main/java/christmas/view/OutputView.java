@@ -13,7 +13,6 @@ import static christmas.view.message.Message.SHOW_EVENT_MESSAGE;
 import static christmas.view.message.Message.START_MESSAGE;
 
 import christmas.model.Menu;
-import christmas.model.MenuBoard;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -51,9 +50,9 @@ public class OutputView {
         System.out.println(priceFormatter(price));
     }
 
-    public void printPromotion(MenuBoard menu) {
+    public void printPromotion(String promotionResult) {
         System.out.println(resultFormatter(PROMOTION.getMessage()));
-        System.out.println(menu.getName());
+        System.out.println(promotionResult);
     }
 
     public String priceFormatter(long price) {

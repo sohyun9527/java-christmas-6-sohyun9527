@@ -30,6 +30,13 @@ public class Discount {
         return result;
     }
 
+    public String champagnePromotion(long price) {
+        if (price >= PROMOTION_PRICE) {
+            return MenuBoard.CHAMPAGNE.getName();
+        }
+        return MenuBoard.NONE.getName();
+    }
+
     private long promotion(long price) {
         if (price >= PROMOTION_PRICE) {
             return MenuBoard.CHAMPAGNE.getPrice();
