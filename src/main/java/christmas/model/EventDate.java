@@ -7,12 +7,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class Date {
+public class EventDate {
     private static final int CHRISTMAS_DATE = 25;
     private static final int YEAR = 2023;
     private final int date;
 
-    public Date(int date) {
+    public EventDate(int date) {
         validateDateRange(date);
         this.date = date;
     }
