@@ -8,7 +8,6 @@ import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class ChristmasEventController {
     private final InputView inputView;
@@ -34,6 +33,7 @@ public class ChristmasEventController {
 
         outputView.printBenefitResult(discountResult);
         outputView.printDiscountPrice(totalDiscount);
+        showDiscountResult(discount, orders, eventDate);
 
         long afterDiscount = orders.totalAmount() - discount.getTotalBenefitAmount();
         outputView.printAfterDiscountPrice(afterDiscount);
@@ -56,7 +56,7 @@ public class ChristmasEventController {
 
 
     private Orders getOrders() {
-        return readUntilValidValue(() -> {
+        return InputView.readUntilValidValue(() -> {
             List<Map<String, Integer>> input = inputView.readOrders();
             return new Orders(input);
 
@@ -64,19 +64,11 @@ public class ChristmasEventController {
     }
 
     private EventDate getVisitDate() {
-        return readUntilValidValue(() -> {
+        return InputView.readUntilValidValue(() -> {
             int visitDate = inputView.readVisitDay();
             return new EventDate(visitDate);
         });
     }
 
-    private <T> T readUntilValidValue(Supplier<T> inputFunction) {
-        while (true) {
-            try {
-                return inputFunction.get();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
+
 }

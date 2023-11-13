@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class InputView {
     private static final String VISIT_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
@@ -78,6 +79,16 @@ public class InputView {
             return Integer.parseInt(count);
         } catch (NumberFormatException e) {
             throw new OrderException();
+        }
+    }
+
+    public static <T> T readUntilValidValue(Supplier<T> inputFunction) {
+        while (true) {
+            try {
+                return inputFunction.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
