@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class OutputView {
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String PREFIX = "<";
     private static final String POSTFIX = ">";
 
@@ -75,8 +76,7 @@ public class OutputView {
     }
 
     public String resultFormatter(String message) {
-        System.out.println();
-        return PREFIX + message + POSTFIX;
+        return LINE_SEPARATOR + PREFIX + message + POSTFIX;
     }
 
 }
