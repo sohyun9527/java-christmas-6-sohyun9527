@@ -1,60 +1,77 @@
 package christmas.controller;
 
-import christmas.model.Date;
+import christmas.model.Badge;
 import christmas.model.Discount;
-import christmas.model.MenuBoard;
+import christmas.model.EventDate;
 import christmas.model.Orders;
-import christmas.model.Promotion;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ChristmasEventController {
+    private static final int EVENT_MINIMUM_PRICE = 10_000;
     InputView inputView = new InputView();
     OutputView outputView = new OutputView();
 
     public void run() {
         outputView.printStartMessage();
-        Date date = getVisitDate();
+        EventDate eventDate = getVisitDate();
         Orders orders = getOrders();
-        showOrderResult(orders, date);
-        showPromotionResult(orders, date);
-    }
+        showOrderResult(orders, eventDate);
 
-    private void showPromotionResult(Orders orders, Date date) {
-        outputView.printPromotion(MenuBoard.getChampagne(orders.beforeSalePrice()));
-        Discount discount = new Discount(orders.makeBill());
-        List<Long> discountResult = discount.result(orders.beforeSalePrice(), date);
+        Discount discount = new Discount(orders.getMenus());
+        outputView.printPromotion(discount.champagnePromotion(orders.totalAmount()));
+
+        // 증정 가격 포함
+        List<Long> discountResult = discount.result(orders.totalAmount(), eventDate);
+        long totalDiscount = discountResult.stream().mapToLong(Long::longValue).sum();
+
         outputView.printDiscountResult(discountResult);
-        outputView.printDiscountPrice(discountResult);
-        long afterDiscount = orders.beforeSalePrice() - discount.getTotalDiscount();
+        outputView.printDiscountPrice(totalDiscount);
+
+        long afterDiscount = orders.totalAmount() - discount.getTotalBenefitAmount();
         outputView.printAfterDiscountPrice(afterDiscount);
-        outputView.printEventBadge(Promotion.getBadge(discountResult));
+        outputView.printEventBadge(Badge.getBadge(totalDiscount));
     }
 
-    private void showOrderResult(Orders orders, Date date) {
-        outputView.printEventPreview(date.getDate());
+    private void showOrderResult(Orders orders, EventDate eventDate) {
+        if (orders.totalAmount() <= EVENT_MINIMUM_PRICE) {
+            if (inputView.readReorder()) {
+                getOrders();
+            }
+        }
+        outputView.printEventPreview(eventDate.getDate());
         outputView.printOrders(orders.getMenus());
-        outputView.printBill(orders.beforeSalePrice());
+        outputView.printBill(orders.totalAmount());
     }
+
+    public void showDiscountResult(Discount discount, Orders orders, EventDate eventDate) {
+        List<Long> totalBenefit = discount.result(orders.totalAmount(), eventDate);
+        long totalBenefitAmount = totalBenefit.stream().mapToLong(Long::longValue).sum();
+
+        outputView.printDiscountResult(totalBenefit);
+        outputView.printDiscountPrice(totalBenefitAmount);
+    }
+
 
     private Orders getOrders() {
-        return untilValidReadValue(() -> {
-            outputView.printRequestOrder();
-            return new Orders(inputView.readOrders());
+        return readUntilValidValue(() -> {
+            List<Map<String, Integer>> input = inputView.readOrders();
+            return new Orders(input);
+
         });
     }
 
-    private Date getVisitDate() {
-        return untilValidReadValue(() -> {
-            outputView.printRequestVisitDay();
+    private EventDate getVisitDate() {
+        return readUntilValidValue(() -> {
             int visitDate = inputView.readVisitDay();
-            return new Date(visitDate);
+            return new EventDate(visitDate);
         });
     }
 
-    private <T> T untilValidReadValue(Supplier<T> inputFunction) {
+    private <T> T readUntilValidValue(Supplier<T> inputFunction) {
         while (true) {
             try {
                 return inputFunction.get();
