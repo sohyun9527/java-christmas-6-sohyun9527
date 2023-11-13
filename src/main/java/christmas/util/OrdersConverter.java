@@ -12,14 +12,14 @@ public class OrdersConverter {
     private static final int VALID_SIZE = 2;
 
     public static List<Map<String, Integer>> convertOrders(String input) {
-        return Arrays.stream(input.split(DELIMITER))
+        return Arrays.stream(input.split(DELIMITER, -1))
                 .map(OrdersConverter::parseNameAndCount)
                 .map(OrdersConverter::createValidOrders)
                 .toList();
     }
 
     private static List<String> parseNameAndCount(String name) {
-        List<String> nameAndCount = Arrays.asList(name.split(DASH));
+        List<String> nameAndCount = Arrays.asList(name.split(DASH, -1));
         validateNameAndCountSize(nameAndCount);
         return nameAndCount;
     }
