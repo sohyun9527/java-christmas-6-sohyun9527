@@ -45,15 +45,6 @@ public class ChristmasEventController {
         outputView.printBill(orders.totalAmount());
     }
 
-    public void showDiscountResult(Discount discount, Orders orders, EventDate eventDate) {
-        List<Long> totalBenefit = discount.result(orders.totalAmount(), eventDate);
-        long totalBenefitAmount = totalBenefit.stream().mapToLong(Long::longValue).sum();
-
-        outputView.printBenefitResult(totalBenefit);
-        outputView.printDiscountPrice(totalBenefitAmount);
-    }
-
-
     private Orders getOrders() {
         return InputView.readUntilValidValue(() -> {
             List<Map<String, Integer>> input = inputView.readOrders();
