@@ -1,10 +1,10 @@
 package christmas.view;
 
 import static christmas.view.message.ErrorMessage.INVALID_BLANK;
-import static christmas.view.message.ErrorMessage.INVALID_DATE;
-import static christmas.view.message.ErrorMessage.INVALID_ORDER;
 
 import camp.nextstep.edu.missionutils.Console;
+import christmas.model.exception.DateException;
+import christmas.model.exception.OrderException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +34,7 @@ public class InputView {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_DATE.getMessage());
+            throw new DateException();
         }
     }
 
@@ -70,7 +70,7 @@ public class InputView {
 
     private void validateNameAndCountLength(List<String> order) {
         if (order.size() != VALID_SIZE) {
-            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
+            throw new OrderException();
         }
     }
 
@@ -81,7 +81,7 @@ public class InputView {
 
     private void validateOnlyDigit(String input) {
         if (!input.chars().allMatch(Character::isDigit) || input.isEmpty()) {
-            throw new NumberFormatException(INVALID_ORDER.getMessage());
+            throw new OrderException();
         }
     }
 }

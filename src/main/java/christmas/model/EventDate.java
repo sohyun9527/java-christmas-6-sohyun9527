@@ -1,8 +1,7 @@
 package christmas.model;
 
 
-import static christmas.view.message.ErrorMessage.INVALID_DATE;
-
+import christmas.model.exception.DateException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,6 +9,8 @@ import java.time.Month;
 public class EventDate {
     private static final int CHRISTMAS_DATE = 25;
     private static final int YEAR = 2023;
+    private static final int START_DAY = 1;
+    private static final int END_DAY = 31;
     private final int date;
 
     public EventDate(int date) {
@@ -18,8 +19,8 @@ public class EventDate {
     }
 
     private void validateDateRange(int date) {
-        if (date < 1 || date > 31) {
-            throw new IllegalArgumentException(INVALID_DATE.getMessage());
+        if (date < START_DAY || date > END_DAY) {
+            throw new DateException();
         }
     }
 

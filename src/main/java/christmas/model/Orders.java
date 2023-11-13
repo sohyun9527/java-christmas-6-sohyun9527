@@ -1,9 +1,8 @@
 package christmas.model;
 
-import static christmas.view.message.ErrorMessage.CANT_ONLY_DRINKS_ORDER;
-import static christmas.view.message.ErrorMessage.INVALID_ORDER;
-import static christmas.view.message.ErrorMessage.OVER_QUANTITY_ORDER;
-
+import christmas.model.exception.CategoryException;
+import christmas.model.exception.OrderException;
+import christmas.model.exception.OverQuantityException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +40,7 @@ public class Orders {
                 .collect(Collectors.toSet());
 
         if (menuNames.size() != orders.size()) {
-            throw new IllegalArgumentException(INVALID_ORDER.getMessage());
+            throw new OrderException();
         }
     }
 
@@ -53,7 +52,7 @@ public class Orders {
                     return menuBoard.getCategory() == Category.DRINK;
                 });
         if (allOrdersAreDrinks) {
-            throw new IllegalArgumentException(CANT_ONLY_DRINKS_ORDER.getMessage());
+            throw new CategoryException(Category.DRINK);
         }
     }
 
@@ -66,7 +65,7 @@ public class Orders {
                         .sum())
                 .sum();
         if (sum > MAXIMUM_COUNT) {
-            throw new IllegalArgumentException(OVER_QUANTITY_ORDER.getMessage());
+            throw new OverQuantityException(MAXIMUM_COUNT);
         }
     }
 
