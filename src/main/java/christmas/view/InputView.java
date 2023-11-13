@@ -17,11 +17,11 @@ public class InputView {
     private static final String DASH = "-";
     private static final int VALID_SIZE = 2;
 
-    public int readVisitDay() {
+    public String readVisitDay() {
         System.out.println(VISIT_DATE_MESSAGE);
         String input = Console.readLine();
         validateEmptyLine(input);
-        return getValidateDate(input);
+        return input;
     }
 
     private void validateEmptyLine(String input) {

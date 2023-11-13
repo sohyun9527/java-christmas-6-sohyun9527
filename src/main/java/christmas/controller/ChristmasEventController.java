@@ -4,6 +4,7 @@ import christmas.model.Badge;
 import christmas.model.Discount;
 import christmas.model.EventDate;
 import christmas.model.Orders;
+import christmas.service.ChristmasEventService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.List;
@@ -12,10 +13,14 @@ import java.util.Map;
 public class ChristmasEventController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final ChristmasEventService christmasEventService;
 
-    public ChristmasEventController(InputView inputView, OutputView outputView) {
+    public ChristmasEventController(InputView inputView,
+                                    OutputView outputView,
+                                    ChristmasEventService christmasEventService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.christmasEventService = christmasEventService;
     }
 
     public void run() {
@@ -55,10 +60,8 @@ public class ChristmasEventController {
 
     private EventDate getVisitDate() {
         return InputView.readUntilValidValue(() -> {
-            int visitDate = inputView.readVisitDay();
-            return new EventDate(visitDate);
+            String visitDate = inputView.readVisitDay();
+            return christmasEventService.generateEventDate(visitDate);
         });
     }
-
-
 }
