@@ -11,9 +11,13 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class ChristmasEventController {
-    private static final int EVENT_MINIMUM_PRICE = 10_000;
-    InputView inputView = new InputView();
-    OutputView outputView = new OutputView();
+    private final InputView inputView;
+    private final OutputView outputView;
+
+    public ChristmasEventController(InputView inputView, OutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
 
     public void run() {
         outputView.printStartMessage();
