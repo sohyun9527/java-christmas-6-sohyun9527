@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class EventDateTest {
 
@@ -18,21 +20,21 @@ class EventDateTest {
     }
 
     @DisplayName("일요일이거나 25일이라면 true 반환")
-    @Test
-    public void isStarDate() {
-        EventDate startEventDate = new EventDate(24);
-        EventDate christmas = new EventDate(25);
-        EventDate commonEventDate = new EventDate(12);
+    @ParameterizedTest
+    @ValueSource(ints = {3, 24, 25})
+    public void isStarDate(int input) {
+        EventDate dates = new EventDate(input);
+        EventDate weekDay = new EventDate(13);
 
-        assertTrue(startEventDate.isStarDate());
-        assertTrue(christmas.isStarDate());
-        assertFalse(commonEventDate.isStarDate());
+        assertTrue(dates.isStarDate());
+        assertFalse(weekDay.isStarDate());
     }
 
     @DisplayName("25일 이전이라면 true 반환")
-    @Test
-    public void isBeforeChristmas() {
-        EventDate beforeChristmas = new EventDate(22);
+    @ParameterizedTest
+    @ValueSource(ints = {1, 24, 25})
+    public void isBeforeChristmas(int input) {
+        EventDate beforeChristmas = new EventDate(input);
         EventDate afterChristmas = new EventDate(26);
 
         assertTrue(beforeChristmas.isBeforeChristmas());

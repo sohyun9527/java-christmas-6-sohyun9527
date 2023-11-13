@@ -37,7 +37,7 @@ public class EventDate {
         return getLocalDate().equals(DayOfWeek.SUNDAY) || date == CHRISTMAS_DATE;
     }
 
-    public DayOfWeek getLocalDate() {
+    private DayOfWeek getLocalDate() {
         LocalDate localDate = LocalDate.of(YEAR, Month.DECEMBER, date);
         return localDate.getDayOfWeek();
     }
