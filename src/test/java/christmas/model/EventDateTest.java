@@ -1,14 +1,23 @@
 package christmas.model;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import christmas.model.exception.DateException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class EventDateTest {
+
+    @DisplayName("1 ~ 31일 사이가 아니라면 에러 반환")
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 32, 0})
+    public void dateRangeTest(int input) {
+        assertThrows(DateException.class, () -> new EventDate(input));
+    }
 
     @DisplayName("금요일이거나 토요일이라면 true 반환")
     @Test
