@@ -3,6 +3,7 @@ package christmas.view;
 import static christmas.view.message.ErrorMessage.INVALID_BLANK;
 import static christmas.view.message.ErrorMessage.INVALID_DATE;
 import static christmas.view.message.ErrorMessage.INVALID_ORDER;
+import static christmas.view.message.ErrorMessage.INVALID_RESPONSE_TYPE;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class InputView {
     private static final String VISIT_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
     private static final String REQUEST_ORDER_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
+    private static final String EVENT_QUESTION = "총 주문금액 10,000원 부터 이벤트가 적용됩니다! 다시 주문하시겠습니까? (y/n을 입력해주세요!)";
     private static final String DELIMITER = ",";
     private static final String DASH = "-";
     private static final int VALID_SIZE = 2;
@@ -22,6 +24,23 @@ public class InputView {
         String input = Console.readLine();
         validateEmptyLine(input);
         return getValidateDate(input);
+    }
+
+    public boolean readReorder() {
+        System.out.println(EVENT_QUESTION);
+        String input = Console.readLine();
+        validateEmptyLine(input);
+        return getValidateResult(input);
+    }
+
+    public boolean getValidateResult(String input) {
+        if (input.equals("y")) {
+            return true;
+        }
+        if (input.equals("n")) {
+            return false;
+        }
+        throw new IllegalArgumentException(INVALID_RESPONSE_TYPE.getMessage());
     }
 
     private void validateEmptyLine(String input) {
