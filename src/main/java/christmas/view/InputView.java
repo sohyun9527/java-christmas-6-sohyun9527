@@ -53,34 +53,32 @@ public class InputView {
 
     private List<String> parseNameAndCount(String name) {
         List<String> nameAndCount = Arrays.asList(name.split(DASH));
-        validateNameAndCountLength(nameAndCount);
+        validateNameAndCountSize(nameAndCount);
         return nameAndCount;
     }
 
     private Map<String, Integer> createValidOrders(List<String> namedAndCount) {
         String name = namedAndCount.get(0);
         String count = namedAndCount.get(1);
-        int validatedCount = validateCount(count);
+        int validatedCount = getValidCount(count);
 
         Map<String, Integer> menu = new HashMap<>();
         menu.put(name, validatedCount);
         return menu;
     }
 
-    private void validateNameAndCountLength(List<String> order) {
+    private void validateNameAndCountSize(List<String> order) {
         if (order.size() != VALID_SIZE) {
             throw new OrderException();
         }
     }
 
-    private int validateCount(String count) {
-        validateOnlyDigit(count);
-        return Integer.parseInt(count);
-    }
-
-    private void validateOnlyDigit(String input) {
-        if (!input.chars().allMatch(Character::isDigit) || input.isEmpty()) {
+    private int getValidCount(String count) {
+        try {
+            return Integer.parseInt(count);
+        } catch (NumberFormatException e) {
             throw new OrderException();
         }
     }
+
 }

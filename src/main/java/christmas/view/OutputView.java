@@ -13,7 +13,7 @@ public class OutputView {
         System.out.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
     }
 
-    public void printEventPreview(int day) {
+    public void printEventPreviewMessage(int day) {
         String message = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
         String result = String.format(message, day);
         System.out.println(result);
@@ -36,14 +36,13 @@ public class OutputView {
         System.out.println(promotionResult);
     }
 
-    public void printDiscountResult(List<Long> discountPrice) {
+    public void printBenefitResult(List<Long> discountPrice) {
         System.out.println(resultFormatter("혜택 내역"));
         if (discountPrice.isEmpty()) {
             System.out.println("없음");
             return;
         }
         List<String> discountTypes = List.of("크리스마스 할인:", "평일 할인:", "주말 할인:", "특별 할인:", "증정 이벤트:");
-
         for (int i = 0; i < discountPrice.size(); i++) {
             long discount = discountPrice.get(i);
             if (discount != 0) {
@@ -56,7 +55,7 @@ public class OutputView {
 
     public void printDiscountPrice(long price) {
         System.out.println(resultFormatter("총혜택 금액"));
-        System.out.println(priceFormatter(price));
+        System.out.println("-" + priceFormatter(price));
 
     }
 

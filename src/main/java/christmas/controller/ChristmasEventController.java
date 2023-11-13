@@ -32,7 +32,7 @@ public class ChristmasEventController {
         List<Long> discountResult = discount.result(orders.totalAmount(), eventDate);
         long totalDiscount = discountResult.stream().mapToLong(Long::longValue).sum();
 
-        outputView.printDiscountResult(discountResult);
+        outputView.printBenefitResult(discountResult);
         outputView.printDiscountPrice(totalDiscount);
 
         long afterDiscount = orders.totalAmount() - discount.getTotalBenefitAmount();
@@ -41,7 +41,7 @@ public class ChristmasEventController {
     }
 
     private void showOrderResult(Orders orders, EventDate eventDate) {
-        outputView.printEventPreview(eventDate.getDate());
+        outputView.printEventPreviewMessage(eventDate.getDate());
         outputView.printOrders(orders.getMenus());
         outputView.printBill(orders.totalAmount());
     }
@@ -50,7 +50,7 @@ public class ChristmasEventController {
         List<Long> totalBenefit = discount.result(orders.totalAmount(), eventDate);
         long totalBenefitAmount = totalBenefit.stream().mapToLong(Long::longValue).sum();
 
-        outputView.printDiscountResult(totalBenefit);
+        outputView.printBenefitResult(totalBenefit);
         outputView.printDiscountPrice(totalBenefitAmount);
     }
 
