@@ -1,8 +1,7 @@
 package christmas.view;
 
-import static christmas.view.message.ErrorMessage.INVALID_BLANK;
-
 import camp.nextstep.edu.missionutils.Console;
+import christmas.model.exception.BlankException;
 import christmas.model.exception.DateException;
 import christmas.model.exception.OrderException;
 import java.util.Arrays;
@@ -26,7 +25,7 @@ public class InputView {
 
     private void validateEmptyLine(String input) {
         if (input.trim().isEmpty()) {
-            throw new IllegalArgumentException(INVALID_BLANK.getMessage());
+            throw new BlankException();
         }
     }
 
