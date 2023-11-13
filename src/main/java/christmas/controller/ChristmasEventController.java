@@ -37,11 +37,6 @@ public class ChristmasEventController {
     }
 
     private void showOrderResult(Orders orders, EventDate eventDate) {
-        if (orders.totalAmount() <= EVENT_MINIMUM_PRICE) {
-            if (inputView.readReorder()) {
-                getOrders();
-            }
-        }
         outputView.printEventPreview(eventDate.getDate());
         outputView.printOrders(orders.getMenus());
         outputView.printBill(orders.totalAmount());
