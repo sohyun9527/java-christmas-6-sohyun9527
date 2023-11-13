@@ -95,6 +95,5 @@ class DiscountTest {
 
         assertEquals(nothing, "없음");
         assertEquals(champagne, "샴페인");
-
     }
 }

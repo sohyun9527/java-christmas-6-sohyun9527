@@ -23,21 +23,20 @@ public class ChristmasEventController {
         EventDate eventDate = getVisitDate();
         Orders orders = getOrders();
         showOrderResult(orders, eventDate);
-
         Discount discount = new Discount(orders.getMenus());
-        outputView.printPromotion(discount.champagnePromotion(orders.totalAmount()));
+        showBenefitResult(orders, discount, eventDate);
+    }
 
-        // 증정 가격 포함
-        List<Long> discountResult = discount.result(orders.totalAmount(), eventDate);
-        long totalDiscount = discountResult.stream().mapToLong(Long::longValue).sum();
-
-        outputView.printBenefitResult(discountResult);
-        outputView.printDiscountPrice(totalDiscount);
-        showDiscountResult(discount, orders, eventDate);
-
+    private void showBenefitResult(Orders orders, Discount discount, EventDate eventDate) {
+        List<Long> totalBenefit = discount.result(orders.totalAmount(), eventDate);
+        long totalBenefitAmount = totalBenefit.stream().mapToLong(Long::longValue).sum();
         long afterDiscount = orders.totalAmount() - discount.getTotalBenefitAmount();
+
+        outputView.printPromotion(discount.champagnePromotion(orders.totalAmount()));
+        outputView.printBenefitResult(totalBenefit);
+        outputView.printDiscountPrice(totalBenefitAmount);
         outputView.printAfterDiscountPrice(afterDiscount);
-        outputView.printEventBadge(Badge.getBadge(totalDiscount));
+        outputView.printEventBadge(Badge.getBadge(totalBenefitAmount));
     }
 
     private void showOrderResult(Orders orders, EventDate eventDate) {
