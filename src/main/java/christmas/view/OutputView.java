@@ -55,6 +55,10 @@ public class OutputView {
 
     public void printDiscountPrice(long price) {
         System.out.println(resultFormatter("총혜택 금액"));
+        if (price == 0) {
+            System.out.println("0원");
+            return;
+        }
         System.out.println("-" + priceFormatter(price));
 
     }
