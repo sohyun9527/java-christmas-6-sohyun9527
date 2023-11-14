@@ -83,17 +83,17 @@ class DiscountTest {
         long totalAmount = result.stream().mapToLong(Long::longValue).sum(); // 샹페인 가격 포함
         long totalBenefitAmount = discount.getTotalBenefitAmount(); // 혜택 가격은 샴페인 가격 미포함
 
-        assertThat(totalAmount - totalBenefitAmount).isEqualTo(25000);
+        assertThat(totalAmount + totalBenefitAmount).isEqualTo(25000);
     }
 
     @DisplayName("120,000원을 넘지 못한다면 반환되는 값은 없음 이다")
     @Test
     void champagnePromotion() {
         EventDate eventDate = new EventDate(31);
-        String nothing = discount.champagnePromotion(119999);
-        String champagne = discount.champagnePromotion(totalAmount);
+        MenuBoard nothing = discount.champagnePromotion(119999);
+        MenuBoard champagne = discount.champagnePromotion(totalAmount);
 
-        assertEquals(nothing, "없음");
-        assertEquals(champagne, "샴페인");
+        assertEquals(nothing.getName(), "없음");
+        assertEquals(champagne.getName(), "샴페인");
     }
 }
