@@ -30,13 +30,6 @@ public class Discount {
         return result;
     }
 
-    public MenuBoard champagnePromotion(long price) {
-        if (price >= PROMOTION_PRICE) {
-            return MenuBoard.CHAMPAGNE;
-        }
-        return MenuBoard.NONE;
-    }
-
     private long promotion(long price) {
         if (price >= PROMOTION_PRICE) {
             return -MenuBoard.CHAMPAGNE.getPrice();
