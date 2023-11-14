@@ -12,7 +12,7 @@ public class Application {
         OutputView outputView = new OutputView();
         ChristmasEventService christmasEventService = new ChristmasEventService();
         ChristmasEventController christMasEventController =
-                new ChristmasEventController(inputView, outputView, christmasEventService);
+                new ChristmasEventController(inputView, outputView);
         christMasEventController.run();
     }
 }

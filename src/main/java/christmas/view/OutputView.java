@@ -1,7 +1,7 @@
 package christmas.view;
 
 import christmas.model.Menu;
-import java.text.DecimalFormat;
+import christmas.model.MenuBoard;
 import java.util.List;
 
 public class OutputView {
@@ -31,9 +31,13 @@ public class OutputView {
         System.out.println(priceFormatter(price));
     }
 
-    public void printPromotion(String promotionResult) {
+    public void printPromotion(MenuBoard menuBoard) {
         System.out.println(resultFormatter("증정 메뉴"));
-        System.out.println(promotionResult);
+        if (!MenuBoard.NONE.equals(menuBoard)) {
+            System.out.println(menuBoard.getName() + " 1개");
+            return;
+        }
+        System.out.println(menuBoard.getName());
     }
 
     public void printBenefitResult(List<Long> discountPrice) {
@@ -46,8 +50,8 @@ public class OutputView {
         for (int i = 0; i < discountPrice.size(); i++) {
             long discount = discountPrice.get(i);
             if (discount != 0) {
-                String formattedDiscount = priceFormatter(discount);
-                String message = String.format("%s -%s", discountTypes.get(i), formattedDiscount);
+                String formattedDiscount = discountFormatter(discount);
+                String message = String.format("%s %s", discountTypes.get(i), formattedDiscount);
                 System.out.println(message);
             }
         }
@@ -55,11 +59,7 @@ public class OutputView {
 
     public void printDiscountPrice(long price) {
         System.out.println(resultFormatter("총혜택 금액"));
-        if (price == 0) {
-            System.out.println("0원");
-            return;
-        }
-        System.out.println("-" + priceFormatter(price));
+        System.out.println(discountFormatter(price));
 
     }
 
@@ -74,8 +74,11 @@ public class OutputView {
     }
 
     public String priceFormatter(long price) {
-        DecimalFormat decimalFormat = new DecimalFormat("#,###원");
-        return decimalFormat.format(price);
+        return String.format("%,d원", price);
+    }
+
+    public String discountFormatter(long price) {
+        return String.format("-%,d원", price);
     }
 
     public String resultFormatter(String message) {

@@ -11,7 +11,7 @@ public class Discount {
     private static final int MINIMUM_ORDER_PRICE = 10_000;
 
     private final List<Menu> orders;
-    private long totalBenefitAmount;
+    private long totalBenefitAmount = 0;
 
     public Discount(List<Menu> order) {
         this.orders = order;
@@ -30,11 +30,11 @@ public class Discount {
         return result;
     }
 
-    public String champagnePromotion(long price) {
+    public MenuBoard champagnePromotion(long price) {
         if (price >= PROMOTION_PRICE) {
-            return MenuBoard.CHAMPAGNE.getName();
+            return MenuBoard.CHAMPAGNE;
         }
-        return MenuBoard.NONE.getName();
+        return MenuBoard.NONE;
     }
 
     private long promotion(long price) {
@@ -51,7 +51,7 @@ public class Discount {
     private long starDate(EventDate eventDate) {
         if (eventDate.isStarDate()) {
             long discountPrice = MINIMUM_UNIT;
-            totalBenefitAmount += discountPrice;
+            totalBenefitAmount -= discountPrice;
             return discountPrice;
         }
         return 0;
@@ -60,7 +60,7 @@ public class Discount {
     private long christmas(EventDate eventDate) {
         if (eventDate.isBeforeChristmas()) {
             long discountPrice = MINIMUM_UNIT + (eventDate.getDate() - FIRST_DAY) * 100L;
-            totalBenefitAmount += discountPrice;
+            totalBenefitAmount -= discountPrice;
             return discountPrice;
         }
         return 0;
@@ -69,7 +69,7 @@ public class Discount {
     private long weekDay(EventDate eventDate) {
         if (!eventDate.isWeekend()) {
             long discountPrice = dessertCategoryCount() * SALE_PRICE;
-            totalBenefitAmount += discountPrice;
+            totalBenefitAmount -= discountPrice;
             return discountPrice;
         }
         return 0;
@@ -78,7 +78,7 @@ public class Discount {
     private long weekend(EventDate eventDate) {
         if (eventDate.isWeekend()) {
             long discountPrice = mainCategoryCount() * SALE_PRICE;
-            totalBenefitAmount += discountPrice;
+            totalBenefitAmount -= discountPrice;
             return discountPrice;
         }
         return 0;

@@ -4,7 +4,8 @@ import christmas.model.Badge;
 import christmas.model.Discount;
 import christmas.model.EventDate;
 import christmas.model.Orders;
-import christmas.service.ChristmasEventService;
+import christmas.util.EventDateConverter;
+import christmas.util.OrdersConverter;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.List;
@@ -13,20 +14,17 @@ import java.util.Map;
 public class ChristmasEventController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final ChristmasEventService christmasEventService;
 
     public ChristmasEventController(InputView inputView,
-                                    OutputView outputView,
-                                    ChristmasEventService christmasEventService) {
+                                    OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.christmasEventService = christmasEventService;
     }
 
     public void run() {
         outputView.printStartMessage();
-        EventDate eventDate = getVisitDate();
-        Orders orders = getOrders();
+        EventDate eventDate = readVisitDate();
+        Orders orders = readOrders();
         showOrderResult(orders, eventDate);
         Discount discount = new Discount(orders.getMenus());
         showBenefitResult(orders, discount, eventDate);
@@ -35,7 +33,7 @@ public class ChristmasEventController {
     private void showBenefitResult(Orders orders, Discount discount, EventDate eventDate) {
         List<Long> totalBenefit = discount.result(orders.totalAmount(), eventDate);
         long totalBenefitAmount = totalBenefit.stream().mapToLong(Long::longValue).sum();
-        long afterDiscount = orders.totalAmount() - discount.getTotalBenefitAmount();
+        long afterDiscount = orders.totalAmount() + discount.getTotalBenefitAmount();
 
         outputView.printPromotion(discount.champagnePromotion(orders.totalAmount()));
         outputView.printBenefitResult(totalBenefit);
@@ -50,18 +48,19 @@ public class ChristmasEventController {
         outputView.printBill(orders.totalAmount());
     }
 
-    private Orders getOrders() {
+    private Orders readOrders() {
         return InputView.readUntilValidValue(() -> {
-            List<Map<String, Integer>> input = inputView.readOrders();
-            return new Orders(input);
-
+            String orderInput = inputView.getOrders();
+            List<Map<String, Integer>> orders = OrdersConverter.convertOrders(orderInput);
+            return new Orders(orders);
         });
     }
 
-    private EventDate getVisitDate() {
+    private EventDate readVisitDate() {
         return InputView.readUntilValidValue(() -> {
-            String visitDate = inputView.readVisitDay();
-            return christmasEventService.generateEventDate(visitDate);
+            String dateInput = inputView.getVisitDate();
+            int date = EventDateConverter.convertDate(dateInput);
+            return new EventDate(date);
         });
     }
 }
