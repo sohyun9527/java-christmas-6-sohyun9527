@@ -1,9 +1,9 @@
 package christmas.controller;
 
-import christmas.model.Badge;
 import christmas.model.Discount;
 import christmas.model.EventDate;
 import christmas.model.Orders;
+import christmas.model.Promotion;
 import christmas.util.EventDateConverter;
 import christmas.util.OrdersConverter;
 import christmas.view.InputView;
@@ -35,11 +35,11 @@ public class ChristmasEventController {
         long totalBenefitAmount = totalBenefit.stream().mapToLong(Long::longValue).sum();
         long afterDiscount = orders.totalAmount() + discount.getTotalBenefitAmount();
 
-        outputView.printPromotion(discount.champagnePromotion(orders.totalAmount()));
+        outputView.printPromotion(Promotion.promotionEvent(orders.totalAmount()));
         outputView.printBenefitResult(totalBenefit);
         outputView.printDiscountPrice(totalBenefitAmount);
         outputView.printAfterDiscountPrice(afterDiscount);
-        outputView.printEventBadge(Badge.getBadge(totalBenefitAmount));
+        outputView.printEventBadge(Promotion.getBadgeByPrice(totalBenefitAmount));
     }
 
     private void showOrderResult(Orders orders, EventDate eventDate) {
