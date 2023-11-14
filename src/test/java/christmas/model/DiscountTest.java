@@ -41,7 +41,7 @@ class DiscountTest {
         EventDate eventDate = new EventDate(26); // 화요일
         List<Long> result = discount.result(totalAmount, eventDate);
 
-        assertThat(result.get(1)).isEqualTo((3 + 2) * 2023);
+        assertThat(result.get(1)).isEqualTo(-((3 + 2) * 2023));
     }
 
     @DisplayName("주말이라면 메인 메뉴를 2,023원씩 할인받는다")
@@ -50,7 +50,7 @@ class DiscountTest {
         EventDate eventDate = new EventDate(29); // 금요일
         List<Long> result = discount.result(totalAmount, eventDate);
 
-        assertThat(result.get(2)).isEqualTo((2 + 3) * 2023);
+        assertThat(result.get(2)).isEqualTo(-((2 + 3) * 2023));
     }
 
     @DisplayName("크리스마스 할인과 주말할인 동시 적용 테스트")
@@ -59,8 +59,8 @@ class DiscountTest {
         EventDate eventDate = new EventDate(15);
         List<Long> result = discount.result(totalAmount, eventDate);
 
-        assertThat(result.get(0)).isEqualTo(2400);
-        assertThat(result.get(2)).isEqualTo((2 + 3) * 2023);
+        assertThat(result.get(0)).isEqualTo(-2400);
+        assertThat(result.get(2)).isEqualTo(-((2 + 3) * 2023));
     }
 
     @DisplayName("크리스마스, 평일, 특별 할인 동시 적용 테스트")
@@ -69,9 +69,9 @@ class DiscountTest {
         EventDate eventDate = new EventDate(25);
         List<Long> result = discount.result(totalAmount, eventDate);
 
-        assertThat(result.get(0)).isEqualTo(3400);
-        assertThat(result.get(1)).isEqualTo((2 + 3) * 2023);
-        assertThat(result.get(3)).isEqualTo(1000);
+        assertThat(result.get(0)).isEqualTo(-3400);
+        assertThat(result.get(1)).isEqualTo(-((2 + 3) * 2023));
+        assertThat(result.get(3)).isEqualTo(-1000);
     }
 
     @DisplayName("총 혜택 금액은 샴페인 가격을 포함한다")
@@ -82,6 +82,6 @@ class DiscountTest {
         long totalAmount = result.stream().mapToLong(Long::longValue).sum(); // 샹페인 가격 포함
         long totalBenefitAmount = discount.getTotalBenefitAmount(); // 혜택 가격은 샴페인 가격 미포함
 
-        assertThat(totalAmount + totalBenefitAmount).isEqualTo(25000);
+        assertThat(totalAmount - totalBenefitAmount).isEqualTo(-25000);
     }
 }

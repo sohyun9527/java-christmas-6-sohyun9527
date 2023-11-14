@@ -28,8 +28,8 @@ public enum Message {
         return String.format(name + " " + count + "개");
     }
 
-    public static String resultFormatter(String message) {
-        return System.lineSeparator() + PREFIX + message + POSTFIX;
+    public static String titleNameFormatter(String message) {
+        return System.lineSeparator() + PREFIX.message + message + POSTFIX.message;
     }
 
     public String getMessage() {

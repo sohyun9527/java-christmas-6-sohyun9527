@@ -19,22 +19,25 @@ public class OutputView {
     }
 
     public void printOrders(List<Menu> orders) {
-        System.out.println(Message.resultFormatter(Message.ORDER.getMessage()));
+        System.out.println(Message.titleNameFormatter(Message.ORDER.getMessage()));
         for (Menu menu : orders) {
             System.out.println(Message.menuFormatter(menu.getName(), menu.getCount()));
         }
     }
 
+    // 양수 출력
     public void printBill(long price) {
         System.out.println(resultFormatter("할인 전 총주문 금액"));
         System.out.println(priceFormatter(price));
     }
 
+    // 샴페인 1개 or 없음
     public void printPromotion(String promotionResult) {
         System.out.println(resultFormatter("증정 메뉴"));
         System.out.println(promotionResult);
     }
 
+    // 없음 or 음수 출력
     public void printBenefitResult(List<Long> discountPrice) {
         System.out.println(resultFormatter("혜택 내역"));
         if (discountPrice.isEmpty()) {
@@ -52,17 +55,20 @@ public class OutputView {
         }
     }
 
+    // 없음 or 음수
     public void printDiscountPrice(long price) {
         System.out.println(resultFormatter("총혜택 금액"));
         System.out.println(priceFormatter(price));
 
     }
 
+    // 양수
     public void printAfterDiscountPrice(long price) {
         System.out.println(resultFormatter("할인 후 예상 결제 금액"));
         System.out.println(priceFormatter(price));
     }
 
+    // 없음 or 뱃지
     public void printEventBadge(String badge) {
         System.out.println(resultFormatter("12월 이벤트 배지"));
         System.out.println(badge);
