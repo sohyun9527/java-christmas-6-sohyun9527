@@ -1,7 +1,6 @@
 package christmas.view;
 
 import christmas.model.Menu;
-import christmas.model.MenuBoard;
 import java.util.List;
 
 public class OutputView {
@@ -10,19 +9,19 @@ public class OutputView {
     private static final String POSTFIX = ">";
 
     public void printStartMessage() {
-        System.out.println("안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.");
+        System.out.println(Message.START_MESSAGE.getMessage());
     }
 
     public void printEventPreviewMessage(int day) {
-        String message = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
-        String result = String.format(message, day);
-        System.out.println(result);
+        String previewMessage = String.format(Message.EVENT_PREVIEW_MESSAGE.getMessage(), day);
+
+        System.out.println(previewMessage);
     }
 
     public void printOrders(List<Menu> orders) {
-        System.out.println(resultFormatter("주문 메뉴"));
+        System.out.println(Message.resultFormatter(Message.ORDER.getMessage()));
         for (Menu menu : orders) {
-            System.out.println(menu.getName() + " " + menu.getCount() + "개");
+            System.out.println(Message.menuFormatter(menu.getName(), menu.getCount()));
         }
     }
 
@@ -31,13 +30,9 @@ public class OutputView {
         System.out.println(priceFormatter(price));
     }
 
-    public void printPromotion(MenuBoard menuBoard) {
+    public void printPromotion(String promotionResult) {
         System.out.println(resultFormatter("증정 메뉴"));
-        if (!MenuBoard.NONE.equals(menuBoard)) {
-            System.out.println(menuBoard.getName() + " 1개");
-            return;
-        }
-        System.out.println(menuBoard.getName());
+        System.out.println(promotionResult);
     }
 
     public void printBenefitResult(List<Long> discountPrice) {
@@ -50,7 +45,7 @@ public class OutputView {
         for (int i = 0; i < discountPrice.size(); i++) {
             long discount = discountPrice.get(i);
             if (discount != 0) {
-                String formattedDiscount = discountFormatter(discount);
+                String formattedDiscount = priceFormatter(discount);
                 String message = String.format("%s %s", discountTypes.get(i), formattedDiscount);
                 System.out.println(message);
             }
@@ -59,7 +54,7 @@ public class OutputView {
 
     public void printDiscountPrice(long price) {
         System.out.println(resultFormatter("총혜택 금액"));
-        System.out.println(discountFormatter(price));
+        System.out.println(priceFormatter(price));
 
     }
 
@@ -77,16 +72,8 @@ public class OutputView {
         return String.format("%,d원", price);
     }
 
-    public String discountFormatter(long price) {
-        return String.format("-%,d원", price);
-    }
-
     public String resultFormatter(String message) {
         return LINE_SEPARATOR + PREFIX + message + POSTFIX;
-    }
-
-    public void printSubject(String message) {
-        System.out.println(LINE_SEPARATOR + PREFIX + message + POSTFIX);
     }
 
 }
