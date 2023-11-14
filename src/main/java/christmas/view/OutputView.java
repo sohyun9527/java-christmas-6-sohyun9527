@@ -42,7 +42,7 @@ public class OutputView {
             System.out.println("없음");
             return;
         }
-        List<String> discountTypes = List.of("크리스마스 할인:", "평일 할인:", "주말 할인:", "특별 할인:", "증정 이벤트:");
+        List<String> discountTypes = List.of("크리스마스 디데이 할인:", "평일 할인:", "주말 할인:", "특별 할인:", "증정 이벤트:");
         for (int i = 0; i < discountPrice.size(); i++) {
             long discount = discountPrice.get(i);
             if (discount != 0) {
@@ -76,6 +76,10 @@ public class OutputView {
 
     public String resultFormatter(String message) {
         return LINE_SEPARATOR + PREFIX + message + POSTFIX;
+    }
+
+    public void printSubject(String message) {
+        System.out.println(LINE_SEPARATOR + PREFIX + message + POSTFIX);
     }
 
 }
