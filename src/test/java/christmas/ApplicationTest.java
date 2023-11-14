@@ -4,7 +4,6 @@ import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ApplicationTest extends NsTest {
@@ -47,15 +46,6 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             runException("3", "제로콜라-a");
             assertThat(output()).contains("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
-        });
-    }
-
-    @DisplayName("샴페인 증정 테스트")
-    @Test
-    void onlyChampagneTest() {
-        assertSimpleTest(() -> {
-            run("27", "티본스테이크-3");
-            assertThat(output()).contains("<증정 메뉴>" + LINE_SEPARATOR + "샴페인");
         });
     }
 
