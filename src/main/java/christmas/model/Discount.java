@@ -39,7 +39,7 @@ public class Discount {
 
     private long promotion(long price) {
         if (price >= PROMOTION_PRICE) {
-            return MenuBoard.CHAMPAGNE.getPrice();
+            return -MenuBoard.CHAMPAGNE.getPrice();
         }
         return 0;
     }
@@ -52,7 +52,7 @@ public class Discount {
         if (eventDate.isStarDate()) {
             long discountPrice = MINIMUM_UNIT;
             totalBenefitAmount -= discountPrice;
-            return discountPrice;
+            return -discountPrice;
         }
         return 0;
     }
@@ -61,7 +61,7 @@ public class Discount {
         if (eventDate.isBeforeChristmas()) {
             long discountPrice = MINIMUM_UNIT + (eventDate.getDate() - FIRST_DAY) * 100L;
             totalBenefitAmount -= discountPrice;
-            return discountPrice;
+            return -discountPrice;
         }
         return 0;
     }
@@ -70,7 +70,7 @@ public class Discount {
         if (!eventDate.isWeekend()) {
             long discountPrice = dessertCategoryCount() * SALE_PRICE;
             totalBenefitAmount -= discountPrice;
-            return discountPrice;
+            return -discountPrice;
         }
         return 0;
     }
@@ -79,7 +79,7 @@ public class Discount {
         if (eventDate.isWeekend()) {
             long discountPrice = mainCategoryCount() * SALE_PRICE;
             totalBenefitAmount -= discountPrice;
-            return discountPrice;
+            return -discountPrice;
         }
         return 0;
     }
