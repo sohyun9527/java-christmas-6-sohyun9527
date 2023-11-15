@@ -2,7 +2,6 @@ package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
 import christmas.model.exception.BlankException;
-import java.util.function.Supplier;
 
 public class InputView {
     private static final String VISIT_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
@@ -35,14 +34,5 @@ public class InputView {
         return Console.readLine();
     }
 
-    public static <T> T readUntilValidValue(Supplier<T> inputFunction) {
-        while (true) {
-            try {
-                return inputFunction.get();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 
 }
