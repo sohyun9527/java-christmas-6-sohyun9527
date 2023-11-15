@@ -2,6 +2,7 @@ package christmas.model;
 
 import christmas.model.exception.CategoryException;
 import christmas.model.exception.OrderException;
+import christmas.model.exception.OverQuantityException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,7 +55,7 @@ public class OrderedMenus {
                 .mapToInt(OrderedMenu::getQuantity)
                 .sum();
         if (count > MAXIMUM_ORDER_QUANTITY) {
-            throw new OrderException();
+            throw new OverQuantityException(MAXIMUM_ORDER_QUANTITY);
         }
     }
 
