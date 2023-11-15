@@ -32,14 +32,15 @@ public class ChristmasEventController {
         EventDay eventDay = readVisitDate();
         OrderedMenus orderedMenus = generateOrderedMenus(menuBoard);
         Benefit benefit = new Benefit();
+        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
 
         showOrderResult(eventDay, orderedMenus);
-        showBenefitDetails(benefit.result(eventDay, orderedMenus));
-        showBenefitResult(orderedMenus, benefit);
+        showBenefitDetails(result);
+        showBenefitResult(orderedMenus, result);
     }
 
-    public void showBenefitResult(OrderedMenus orderedMenus, Benefit benefit) {
-        long totalBenefitAmount = benefit.getTotalBenefitAmount();
+    public void showBenefitResult(OrderedMenus orderedMenus, EnumMap<DiscountType, Long> result) {
+        long totalBenefitAmount = result.values().stream().mapToLong(Long::longValue).sum();
         long finalPrice = orderedMenus.totalAmount() + totalBenefitAmount;
 
         outputView.printBenefitAmount(totalBenefitAmount);
