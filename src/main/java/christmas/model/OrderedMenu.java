@@ -9,6 +9,7 @@ public class OrderedMenu {
 
     public OrderedMenu(Menu menu, int quantity) {
         this.menu = menu;
+        validateQuantityCount(quantity);
         this.quantity = quantity;
     }
 
@@ -16,6 +17,10 @@ public class OrderedMenu {
         if (quantity < MINIMUM_QUANTITY) {
             throw new OrderException();
         }
+    }
+
+    public boolean isDrinkCategory() {
+        return menu.isDrinkCategory();
     }
 
     public Menu getMenu() {

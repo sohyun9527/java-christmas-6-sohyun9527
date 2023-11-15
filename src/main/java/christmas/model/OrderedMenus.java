@@ -1,5 +1,6 @@
 package christmas.model;
 
+import christmas.model.exception.CategoryException;
 import christmas.model.exception.OrderException;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,24 @@ public class OrderedMenus {
         Set<Menu> uniqueMenus = menus.stream().map(OrderedMenu::getMenu)
                 .collect(Collectors.toSet());
         if (uniqueMenus.size() != menus.size()) {
+            throw new OrderException();
+        }
+    }
+
+    private void validateAllCategoryIsDrink(List<OrderedMenu> orderedMenus) {
+        boolean allAreDrinks = orderedMenus.stream()
+                .allMatch(OrderedMenu::isDrinkCategory);
+
+        if (allAreDrinks) {
+            throw new CategoryException(Category.DRINK);
+        }
+    }
+
+    private void validateOverQuantity(List<OrderedMenu> orderedMenus) {
+        int count = orderedMenus.stream()
+                .mapToInt(OrderedMenu::getQuantity)
+                .sum();
+        if (count > MAXIMUM_ORDER_QUANTITY) {
             throw new OrderException();
         }
     }

@@ -11,6 +11,10 @@ public class Menu {
         this.category = category;
     }
 
+    public boolean isDrinkCategory() {
+        return this.category == Category.DRINK;
+    }
+
     public boolean isDessertCategory() {
         return this.category == Category.DESSERT;
     }
