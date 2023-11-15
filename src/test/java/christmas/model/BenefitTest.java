@@ -42,7 +42,7 @@ class BenefitTest {
     @Test
     void christmasAndWeekDay() {
         OrderedMenus orderedMenus = new OrderedMenus(List.of(mainOrder, dessertOrder, drinkOrder));
-        EventDay eventDay = new EventDay(15);
+        EventDay eventDay = new EventDay("15");
         EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
 
         assertThat(result.get(DiscountType.WEEKEND)).isEqualTo(-(2023 * 5));
@@ -53,7 +53,7 @@ class BenefitTest {
     @Test
     void christmasAndWeekdayAndSpecial() {
         OrderedMenus orderedMenus = new OrderedMenus(List.of(mainOrder, dessertOrder, drinkOrder));
-        EventDay eventDay = new EventDay(25);
+        EventDay eventDay = new EventDay("25");
         EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
 
         assertThat(result.get(DiscountType.WEEKEND)).isEqualTo(0);
