@@ -5,7 +5,7 @@ public enum DiscountType {
     WEEKDAY("평일 할인"),
     WEEKEND("주말 할인"),
     SPECIAL("특별 할인"),
-    PROMOTION("증정 이벤트"); // 할인 아닌듯
+    PROMOTION("증정 이벤트");
 
     private final String message;
 

@@ -22,8 +22,8 @@ class EventDayTest {
     @DisplayName("금요일이거나 토요일이라면 true 반환")
     @Test
     public void isWeekendDate() {
-        EventDay commonEventDay = new EventDay("13"); // 12월 13일 수요일
-        EventDay weekendEventDay = new EventDay("15"); // 금요일
+        EventDay commonEventDay = new EventDay("13");
+        EventDay weekendEventDay = new EventDay("15");
         assertFalse(commonEventDay.isWeekend());
         assertTrue(weekendEventDay.isWeekend());
     }
