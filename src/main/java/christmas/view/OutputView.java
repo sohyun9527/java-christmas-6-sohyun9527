@@ -24,14 +24,11 @@ public class OutputView {
         }
     }
 
-
-    // 양수 출력
     public void printBeforeDiscountAmount(long price) {
         System.out.println(titleFormatter(Message.TOTAL_ORDER_AMOUNT.getMessage()));
         System.out.println(priceFormatter(price));
     }
 
-    // 샴페인 1개 or 없음
     public void printPromotionResult(String promotionResult) {
         System.out.println(titleFormatter(Message.PROMOTION.getMessage()));
         System.out.println(promotionResult);
@@ -49,19 +46,16 @@ public class OutputView {
         System.out.println(discountType + ": " + priceFormatter(price));
     }
 
-    // 없음 or 음수
     public void printBenefitAmount(long price) {
         System.out.println(titleFormatter(Message.DISCOUNT_AMOUNT.getMessage()));
         System.out.println(priceFormatter(price));
     }
 
-    // 양수
     public void printAfterDiscountPrice(long price) {
         System.out.println(titleFormatter(Message.AFTER_DISCOUNT_AMOUNT.getMessage()));
         System.out.println(priceFormatter(price));
     }
 
-    // 없음 or 뱃지
     public void printEventBadge(String badge) {
         System.out.println(titleFormatter(Message.BADGE.getMessage()));
         System.out.println(badge);
