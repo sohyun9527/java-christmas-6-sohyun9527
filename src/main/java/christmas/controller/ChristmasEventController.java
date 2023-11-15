@@ -60,6 +60,22 @@ public class ChristmasEventController {
         });
     }
 
+    public void showBenefitDetails(EnumMap<DiscountType, Long> benefitResult) {
+        outputView.printBenefitTitle();
+        long totalBenefitPrice = benefit.totalBenefitPrice(benefitResult);
+
+        if (totalBenefitPrice == 0) {
+            outputView.printNoneMessage();
+            return;
+        }
+        for (DiscountType type : DiscountType.values()) {
+            long value = benefitResult.get(type);
+            if (value != 0) {
+                outputView.printBenefitDetail(type.getMessage(), value);
+            }
+        }
+    }
+
     public List<OrderedMenu> generateOrderedMenus(List<OrderInput> orderInputs, List<Menu> menuBoard) {
         return orderInputs.stream()
                 .map(input -> input.makeOrderedMenu(menuBoard))
@@ -71,7 +87,6 @@ public class ChristmasEventController {
                 .map(OrderInput::new)
                 .toList();
     }
-
 
     private EventDay readVisitDate() {
         return readUntilValidValue(() -> {

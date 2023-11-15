@@ -37,22 +37,16 @@ public class OutputView {
         System.out.println(promotionResult);
     }
 
-    // 없음 or 음수 출력
-    public void printBenefitResult(List<Long> discountPrice) {
-        System.out.println(titleFormatter("혜택 내역"));
-        if (discountPrice.isEmpty()) {
-            System.out.println("없음");
-            return;
-        }
-        List<String> discountTypes = List.of("크리스마스 디데이 할인:", "평일 할인:", "주말 할인:", "특별 할인:", "증정 이벤트:");
-        for (int i = 0; i < discountPrice.size(); i++) {
-            long discount = discountPrice.get(i);
-            if (discount != 0) {
-                String formattedDiscount = priceFormatter(discount);
-                String message = String.format("%s %s", discountTypes.get(i), formattedDiscount);
-                System.out.println(message);
-            }
-        }
+    public void printBenefitTitle() {
+        System.out.println(titleFormatter(Message.DISCOUNT.getMessage()));
+    }
+
+    public void printNoneMessage() {
+        System.out.println(Message.NONE.getMessage());
+    }
+
+    public void printBenefitDetail(String discountType, long price) {
+        System.out.println(discountType + ": " + priceFormatter(price));
     }
 
     // 없음 or 음수
