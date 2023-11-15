@@ -50,21 +50,20 @@ public class OutputView {
     }
 
     // 없음 or 음수
-    public void printDiscountPrice(long price) {
-        System.out.println(titleFormatter("총혜택 금액"));
+    public void printBenefitAmount(long price) {
+        System.out.println(titleFormatter(Message.DISCOUNT_AMOUNT.getMessage()));
         System.out.println(priceFormatter(price));
-
     }
 
     // 양수
     public void printAfterDiscountPrice(long price) {
-        System.out.println(titleFormatter("할인 후 예상 결제 금액"));
+        System.out.println(titleFormatter(Message.AFTER_DISCOUNT_AMOUNT.getMessage()));
         System.out.println(priceFormatter(price));
     }
 
     // 없음 or 뱃지
     public void printEventBadge(String badge) {
-        System.out.println(titleFormatter("12월 이벤트 배지"));
+        System.out.println(titleFormatter(Message.BADGE.getMessage()));
         System.out.println(badge);
     }
 

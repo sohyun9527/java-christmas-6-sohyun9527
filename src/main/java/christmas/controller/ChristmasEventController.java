@@ -32,12 +32,21 @@ public class ChristmasEventController {
         List<Menu> menuBoard = makeMenuBoard();
         outputView.printStartMessage();
         EventDay eventDay = readVisitDate();
-        OrderedMenus menus = generateOrderedMenus(menuBoard);
+        OrderedMenus orderedMenus = generateOrderedMenus(menuBoard);
 
-        EnumMap<DiscountType, Long> result = benefit.result(eventDay, menus);
-        showOrderResult(eventDay, menus);
+        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
+        showOrderResult(eventDay, orderedMenus);
+        showBenefitDetails(result);
+        showBenefitResult(orderedMenus);
+    }
 
+    public void showBenefitResult(OrderedMenus orderedMenus) {
+        long totalBenefitAmount = benefit.getTotalBenefitAmount();
+        long finalPrice = orderedMenus.totalAmount() + totalBenefitAmount;
 
+        outputView.printBenefitAmount(totalBenefitAmount);
+        outputView.printAfterDiscountPrice(finalPrice);
+        outputView.printEventBadge(Promotion.getBadgeByPrice(totalBenefitAmount));
     }
 
     public void showOrderResult(EventDay eventDay, OrderedMenus menus) {
