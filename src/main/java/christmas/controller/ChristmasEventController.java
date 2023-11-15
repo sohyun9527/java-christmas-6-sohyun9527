@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 public class ChristmasEventController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final Benefit benefit = new Benefit();
 
     public ChristmasEventController(InputView inputView,
                                     OutputView outputView) {
@@ -32,14 +31,14 @@ public class ChristmasEventController {
         outputView.printStartMessage();
         EventDay eventDay = readVisitDate();
         OrderedMenus orderedMenus = generateOrderedMenus(menuBoard);
+        Benefit benefit = new Benefit();
 
-        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
         showOrderResult(eventDay, orderedMenus);
-        showBenefitDetails(result);
-        showBenefitResult(orderedMenus);
+        showBenefitDetails(benefit.result(eventDay, orderedMenus));
+        showBenefitResult(orderedMenus, benefit);
     }
 
-    public void showBenefitResult(OrderedMenus orderedMenus) {
+    public void showBenefitResult(OrderedMenus orderedMenus, Benefit benefit) {
         long totalBenefitAmount = benefit.getTotalBenefitAmount();
         long finalPrice = orderedMenus.totalAmount() + totalBenefitAmount;
 
@@ -70,7 +69,7 @@ public class ChristmasEventController {
 
     public void showBenefitDetails(EnumMap<DiscountType, Long> benefitResult) {
         outputView.printBenefitTitle();
-        long totalBenefitPrice = benefit.totalBenefitPrice(benefitResult);
+        long totalBenefitPrice = benefitResult.values().stream().mapToLong(Long::longValue).sum();
 
         if (totalBenefitPrice == 0) {
             outputView.printNoneMessage();

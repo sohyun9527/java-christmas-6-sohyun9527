@@ -25,10 +25,6 @@ public class Benefit {
         return result;
     }
 
-    public long totalBenefitPrice(EnumMap<DiscountType, Long> result) {
-        return result.values().stream().mapToLong(Long::longValue).reduce(0, Long::sum);
-    }
-
     private long promotion(long price) {
         if (price >= PROMOTION_PRICE) {
             return -MenuBoard.CHAMPAGNE.getPrice();
