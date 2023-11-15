@@ -4,8 +4,6 @@ import christmas.model.exception.CategoryException;
 import christmas.model.exception.OrderException;
 import christmas.model.exception.OverQuantityException;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class OrderedMenus {
     private static final int MAXIMUM_ORDER_QUANTITY = 20;
@@ -43,9 +41,9 @@ public class OrderedMenus {
     }
 
     private void validateDuplicateMane(List<OrderedMenu> menus) {
-        Set<Menu> uniqueMenus = menus.stream().map(OrderedMenu::getMenu)
-                .collect(Collectors.toSet());
-        if (uniqueMenus.size() != menus.size()) {
+        long uniqueMenuSize = menus.stream().distinct().count();
+        
+        if (uniqueMenuSize != menus.size()) {
             throw new OrderException();
         }
     }
