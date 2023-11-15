@@ -31,30 +31,18 @@ public class ChristmasEventController {
         outputView.printStartMessage();
         EventDay eventDay = readVisitDate();
         OrderedMenus orderedMenus = generateOrderedMenus(menuBoard);
-        Benefit benefit = new Benefit();
-        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
+        Benefit benefit = new Benefit(eventDay, orderedMenus);
 
         showOrderResult(eventDay, orderedMenus);
-        showBenefitDetails(result);
-        showBenefitResult(orderedMenus, result);
+        showBenefitDetails(benefit);
+        showBenefitResult(orderedMenus, benefit);
     }
 
-    public void showBenefitResult(OrderedMenus orderedMenus, EnumMap<DiscountType, Long> result) {
-        long totalBenefitAmount = result.values().stream().mapToLong(Long::longValue).sum();
-        long finalPrice = orderedMenus.totalAmount() + totalBenefitAmount;
-
-        outputView.printBenefitAmount(totalBenefitAmount);
-        outputView.printAfterDiscountPrice(finalPrice);
-        outputView.printEventBadge(Promotion.getBadgeByPrice(totalBenefitAmount));
-    }
-
-    public void showOrderResult(EventDay eventDay, OrderedMenus menus) {
-        long orderTotalAmount = menus.totalAmount();
-
-        outputView.printEventPreviewMessage(eventDay.getDay());
-        outputView.printOrderedMenus(menus.getOrderedMenus());
-        outputView.printBeforeDiscountAmount(orderTotalAmount);
-        outputView.printPromotionResult(Promotion.promotionEvent(orderTotalAmount));
+    private EventDay readVisitDate() {
+        return readUntilValidValue(() -> {
+            String dateInput = inputView.getVisitDate();
+            return new EventDay(dateInput);
+        });
     }
 
     public OrderedMenus generateOrderedMenus(List<Menu> menuBoard) {
@@ -66,22 +54,6 @@ public class ChristmasEventController {
 
             return new OrderedMenus(orderedMenus);
         });
-    }
-
-    public void showBenefitDetails(EnumMap<DiscountType, Long> benefitResult) {
-        outputView.printBenefitTitle();
-        long totalBenefitPrice = benefitResult.values().stream().mapToLong(Long::longValue).sum();
-
-        if (totalBenefitPrice == 0) {
-            outputView.printNoneMessage();
-            return;
-        }
-        for (DiscountType type : DiscountType.values()) {
-            long value = benefitResult.get(type);
-            if (value != 0) {
-                outputView.printBenefitDetail(type.getMessage(), value);
-            }
-        }
     }
 
     public List<OrderedMenu> generateOrderedMenus(List<OrderInput> orderInputs, List<Menu> menuBoard) {
@@ -96,11 +68,39 @@ public class ChristmasEventController {
                 .toList();
     }
 
-    private EventDay readVisitDate() {
-        return readUntilValidValue(() -> {
-            String dateInput = inputView.getVisitDate();
-            return new EventDay(dateInput);
-        });
+    public void showOrderResult(EventDay eventDay, OrderedMenus menus) {
+        long orderTotalAmount = menus.totalAmount();
+
+        outputView.printEventPreviewMessage(eventDay.getDay());
+        outputView.printOrderedMenus(menus.getOrderedMenus());
+        outputView.printBeforeDiscountAmount(orderTotalAmount);
+        outputView.printPromotionResult(Promotion.promotionEvent(orderTotalAmount));
+    }
+
+    public void showBenefitDetails(Benefit benefit) {
+        outputView.printBenefitTitle();
+        long totalBenefitPrice = benefit.totalBenefitAmount();
+
+        if (totalBenefitPrice == 0) {
+            outputView.printNoneMessage();
+            return;
+        }
+        EnumMap<DiscountType, Long> benefitResult = benefit.getResult();
+        for (DiscountType type : DiscountType.values()) {
+            long value = benefitResult.get(type);
+            if (value != 0) {
+                outputView.printBenefitDetail(type.getMessage(), value);
+            }
+        }
+    }
+
+    public void showBenefitResult(OrderedMenus orderedMenus, Benefit benefit) {
+        long totalBenefitAmount = benefit.totalBenefitAmount();
+        long finalPrice = orderedMenus.totalAmount() + benefit.getTotalDiscountAmount();
+
+        outputView.printBenefitAmount(totalBenefitAmount);
+        outputView.printAfterDiscountPrice(finalPrice);
+        outputView.printEventBadge(Promotion.getBadgeByPrice(totalBenefitAmount));
     }
 
     private List<Menu> makeMenuBoard() {

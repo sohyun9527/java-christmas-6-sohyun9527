@@ -20,7 +20,6 @@ class BenefitTest {
     OrderedMenu mainOrder;
     OrderedMenu drinkOrder;
     OrderedMenu dessertOrder;
-    Benefit benefit = new Benefit();
 
     @BeforeEach
     void setUp() {
@@ -43,7 +42,8 @@ class BenefitTest {
     void christmasAndWeekDay() {
         OrderedMenus orderedMenus = new OrderedMenus(List.of(mainOrder, dessertOrder, drinkOrder));
         EventDay eventDay = new EventDay("15");
-        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
+        Benefit benefit = new Benefit(eventDay, orderedMenus);
+        EnumMap<DiscountType, Long> result = benefit.getResult();
 
         assertThat(result.get(DiscountType.WEEKEND)).isEqualTo(-(2023 * 5));
         assertThat(result.get(DiscountType.CHRISTMAS)).isEqualTo(-(2400));
@@ -54,7 +54,8 @@ class BenefitTest {
     void christmasAndWeekdayAndSpecial() {
         OrderedMenus orderedMenus = new OrderedMenus(List.of(mainOrder, dessertOrder, drinkOrder));
         EventDay eventDay = new EventDay("25");
-        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
+        Benefit benefit = new Benefit(eventDay, orderedMenus);
+        EnumMap<DiscountType, Long> result = benefit.getResult();
 
         assertThat(result.get(DiscountType.WEEKEND)).isEqualTo(0);
         assertThat(result.get(DiscountType.WEEKDAY)).isEqualTo(-(10 * 2023));
@@ -66,7 +67,8 @@ class BenefitTest {
     void weekdayDiscount() {
         OrderedMenus orderedMenus = new OrderedMenus(List.of(mainOrder, dessertOrder, drinkOrder));
         EventDay eventDay = new EventDay("28");
-        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
+        Benefit benefit = new Benefit(eventDay, orderedMenus);
+        EnumMap<DiscountType, Long> result = benefit.getResult();
 
         assertThat(result.get(DiscountType.WEEKEND)).isEqualTo(0);
         assertThat(result.get(DiscountType.WEEKDAY)).isEqualTo(-(10 * 2023));

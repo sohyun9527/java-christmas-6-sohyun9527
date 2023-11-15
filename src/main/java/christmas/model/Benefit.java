@@ -11,18 +11,29 @@ public class Benefit {
     private static final int MINIMUM_ORDER_PRICE = 10_000;
     private static final long DAY_DISCOUNT = 100L;
 
-    private long totalBenefitAmount;
+    private final EnumMap<DiscountType, Long> result = new EnumMap<>(DiscountType.class);
+    private final OrderedMenus orderedMenus;
+    private final EventDay eventDay;
+    private long totalDiscountAmount;
 
-    public EnumMap<DiscountType, Long> result(EventDay eventDay, OrderedMenus menus) {
-        EnumMap<DiscountType, Long> result = new EnumMap<>(DiscountType.class);
-        if (isOverEventPrice(menus.totalAmount())) {
+    public Benefit(EventDay eventDay, OrderedMenus orderedMenus) {
+        this.eventDay = eventDay;
+        this.orderedMenus = orderedMenus;
+        makeResult();
+    }
+
+    public void makeResult() {
+        if (isOverEventPrice(orderedMenus.totalAmount())) {
             result.put(DiscountType.CHRISTMAS, christmas(eventDay));
-            result.put(DiscountType.WEEKDAY, weekDay(eventDay, menus));
-            result.put(DiscountType.WEEKEND, weekend(eventDay, menus));
+            result.put(DiscountType.WEEKDAY, weekDay(eventDay, orderedMenus));
+            result.put(DiscountType.WEEKEND, weekend(eventDay, orderedMenus));
             result.put(DiscountType.SPECIAL, special(eventDay));
-            result.put(DiscountType.PROMOTION, promotion(menus.totalAmount()));
+            result.put(DiscountType.PROMOTION, promotion(orderedMenus.totalAmount()));
         }
-        return result;
+    }
+
+    public long totalBenefitAmount() {
+        return result.values().stream().mapToLong(Long::longValue).sum();
     }
 
     private long promotion(long price) {
@@ -39,7 +50,7 @@ public class Benefit {
     private long christmas(EventDay eventDay) {
         if (eventDay.isBeforeChristmas()) {
             long discountPrice = MINIMUM_UNIT + (eventDay.getDay() - FIRST_DAY) * DAY_DISCOUNT;
-            totalBenefitAmount -= discountPrice;
+            totalDiscountAmount -= discountPrice;
             return -discountPrice;
         }
         return 0;
@@ -48,7 +59,7 @@ public class Benefit {
     private long weekend(EventDay eventDay, OrderedMenus menus) {
         if (eventDay.isWeekend()) {
             long discountPrice = menus.countMainCategory() * SALE_PRICE;
-            totalBenefitAmount -= discountPrice;
+            totalDiscountAmount -= discountPrice;
             return -discountPrice;
         }
         return 0;
@@ -57,7 +68,7 @@ public class Benefit {
     private long weekDay(EventDay eventDay, OrderedMenus menus) {
         if (!eventDay.isWeekend()) {
             long discountPrice = menus.countDessertCategory() * SALE_PRICE;
-            totalBenefitAmount -= discountPrice;
+            totalDiscountAmount -= discountPrice;
             return -discountPrice;
         }
         return 0;
@@ -66,13 +77,17 @@ public class Benefit {
     private long special(EventDay eventDay) {
         if (eventDay.isSpecialDay()) {
             long discountPrice = MINIMUM_UNIT;
-            totalBenefitAmount -= discountPrice;
+            totalDiscountAmount -= discountPrice;
             return -discountPrice;
         }
         return 0;
     }
 
-    public long getTotalBenefitAmount() {
-        return totalBenefitAmount;
+    public EnumMap<DiscountType, Long> getResult() {
+        return result;
+    }
+
+    public long getTotalDiscountAmount() {
+        return totalDiscountAmount;
     }
 }

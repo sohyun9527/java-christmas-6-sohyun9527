@@ -24,13 +24,14 @@ public enum Promotion {
     }
 
     public static String getBadgeByPrice(long discountPrice) {
-        if (discountPrice >= SANTA.price) {
+        long absPrice = Math.abs(discountPrice);
+        if (absPrice >= SANTA.price) {
             return SANTA.name;
         }
-        if (discountPrice >= TREE.price) {
+        if (absPrice >= TREE.price) {
             return TREE.name;
         }
-        if (discountPrice >= STAR.price) {
+        if (absPrice >= STAR.price) {
             return STAR.name;
         }
         return NONE.name;
