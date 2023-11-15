@@ -43,9 +43,9 @@ public class ChristmasEventController {
     public void showOrderResult(EventDay eventDay, OrderedMenus menus) {
         long orderTotalAmount = menus.totalAmount();
 
-        outputView.printVisitDateMessage(eventDay.getDay());
+        outputView.printEventPreviewMessage(eventDay.getDay());
         outputView.printOrderedMenus(menus.getOrderedMenus());
-        outputView.printBVeforeDiscountAmount(orderTotalAmount);
+        outputView.printBeforeDiscountAmount(orderTotalAmount);
         outputView.printPromotionResult(Promotion.promotionEvent(orderTotalAmount));
     }
 
