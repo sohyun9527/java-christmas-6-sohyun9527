@@ -2,14 +2,17 @@ package christmas.controller;
 
 import christmas.model.Discount;
 import christmas.model.EventDate;
+import christmas.model.Menu;
 import christmas.model.Orders;
 import christmas.model.Promotion;
+import christmas.repository.MenuBoard;
 import christmas.util.EventDateConverter;
 import christmas.util.OrdersConverter;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ChristmasEventController {
     private final InputView inputView;
@@ -22,6 +25,7 @@ public class ChristmasEventController {
     }
 
     public void run() {
+        List<Menu> menuBoard = makeMenuBoard();
         outputView.printStartMessage();
         EventDate eventDate = readVisitDate();
         Orders orders = readOrders();
@@ -62,5 +66,11 @@ public class ChristmasEventController {
             int date = EventDateConverter.convertDate(dateInput);
             return new EventDate(date);
         });
+    }
+
+    private List<Menu> makeMenuBoard() {
+        return Stream.of(MenuBoard.values())
+                .map(menuBoard -> new Menu(menuBoard.getName(), menuBoard.getPrice(), menuBoard.getCategory()))
+                .toList();
     }
 }

@@ -1,6 +1,6 @@
-package christmas.model;
+package christmas.repository;
 
-import java.util.Arrays;
+import christmas.model.Category;
 
 public enum MenuBoard {
     MUSHROOM_SOUP("양송이수프", 6_000, Category.APPETIZER),
@@ -25,21 +25,6 @@ public enum MenuBoard {
         this.name = name;
         this.price = price;
         this.category = category;
-    }
-
-    public static MenuBoard getByName(String menu) {
-        return Arrays.stream(MenuBoard.values())
-                .filter(item -> item.name.equals(menu))
-                .findFirst()
-                .orElse(NONE);
-    }
-
-    public static Category getCategoryByName(String name) {
-        return Arrays.stream(MenuBoard.values())
-                .filter(item -> item.getName().equals(name))
-                .findFirst()
-                .map(MenuBoard::getCategory)
-                .orElse(Category.NULL);
     }
 
     public String getName() {
