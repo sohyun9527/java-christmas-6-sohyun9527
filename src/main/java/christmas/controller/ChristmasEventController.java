@@ -9,7 +9,6 @@ import christmas.model.OrderedMenu;
 import christmas.model.OrderedMenus;
 import christmas.model.Promotion;
 import christmas.repository.MenuBoard;
-import christmas.util.EventDateConverter;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.EnumMap;
@@ -20,7 +19,7 @@ import java.util.stream.Stream;
 public class ChristmasEventController {
     private final InputView inputView;
     private final OutputView outputView;
-    private Benefit benefit = new Benefit();
+    private final Benefit benefit = new Benefit();
 
     public ChristmasEventController(InputView inputView,
                                     OutputView outputView) {
@@ -100,8 +99,7 @@ public class ChristmasEventController {
     private EventDay readVisitDate() {
         return readUntilValidValue(() -> {
             String dateInput = inputView.getVisitDate();
-            int date = EventDateConverter.convertDate(dateInput);
-            return new EventDay(date);
+            return new EventDay(dateInput);
         });
     }
 

@@ -13,13 +13,22 @@ public class EventDay {
     private static final int END_DAY = 31;
     private final int day;
 
-    public EventDay(int day) {
+    public EventDay(String inputDay) {
+        int day = convertDay(inputDay);
         validateDateRange(day);
         this.day = day;
     }
 
     private void validateDateRange(int date) {
         if (date < START_DAY || date > END_DAY) {
+            throw new DateException();
+        }
+    }
+
+    private int convertDay(String inputDay) {
+        try {
+            return Integer.parseInt(inputDay);
+        } catch (NumberFormatException exception) {
             throw new DateException();
         }
     }
