@@ -1,6 +1,7 @@
 package christmas.model;
 
 import christmas.model.exception.OrderException;
+import java.util.Objects;
 
 public class OrderedMenu {
     private static final int MINIMUM_QUANTITY = 1;
@@ -41,5 +42,22 @@ public class OrderedMenu {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        OrderedMenu orderedMenu = (OrderedMenu) o;
+        return Objects.equals(getMenu(), orderedMenu.getMenu());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMenu());
     }
 }
