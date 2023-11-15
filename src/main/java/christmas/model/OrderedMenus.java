@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 public class OrderedMenus {
     private static final int MAXIMUM_ORDER_QUANTITY = 20;
-    private final List<OrderedMenu> menus;
+    private final List<OrderedMenu> orderedMenus;
 
-    public OrderedMenus(List<OrderedMenu> menus) {
-        validate(menus);
-        this.menus = menus;
+    public OrderedMenus(List<OrderedMenu> orderedMenus) {
+        validate(orderedMenus);
+        this.orderedMenus = orderedMenus;
     }
 
     public void validate(List<OrderedMenu> menus) {
@@ -22,20 +22,20 @@ public class OrderedMenus {
     }
 
     public long totalAmount() {
-        return menus.stream()
+        return orderedMenus.stream()
                 .mapToLong(OrderedMenu::calculateMenuPrice)
                 .sum();
     }
 
     public long countDessertCategory() {
-        return menus.stream()
+        return orderedMenus.stream()
                 .filter(OrderedMenu::isDessertCategory)
                 .mapToInt(OrderedMenu::getQuantity)
                 .sum();
     }
 
     public long countMainCategory() {
-        return menus.stream()
+        return orderedMenus.stream()
                 .filter(OrderedMenu::isMainCategory)
                 .mapToInt(OrderedMenu::getQuantity)
                 .sum();
@@ -49,15 +49,6 @@ public class OrderedMenus {
         }
     }
 
-    private void validateAllCategoryIsDrink(List<OrderedMenu> orderedMenus) {
-        boolean allAreDrinks = orderedMenus.stream()
-                .allMatch(OrderedMenu::isDrinkCategory);
-
-        if (allAreDrinks) {
-            throw new CategoryException(Category.DRINK);
-        }
-    }
-
     private void validateOverQuantity(List<OrderedMenu> orderedMenus) {
         int count = orderedMenus.stream()
                 .mapToInt(OrderedMenu::getQuantity)
@@ -67,4 +58,16 @@ public class OrderedMenus {
         }
     }
 
+    private void validateAllCategoryIsDrink(List<OrderedMenu> orderedMenus) {
+        boolean allAreDrinks = orderedMenus.stream()
+                .allMatch(OrderedMenu::isDrinkCategory);
+
+        if (allAreDrinks) {
+            throw new CategoryException(Category.DRINK);
+        }
+    }
+
+    public List<OrderedMenu> getOrderedMenus() {
+        return orderedMenus;
+    }
 }

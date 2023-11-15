@@ -36,6 +36,10 @@ public class OrderedMenu {
         return menu.isMainCategory();
     }
 
+    public String getName() {
+        return menu.getName();
+    }
+
     public Menu getMenu() {
         return menu;
     }
