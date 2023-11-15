@@ -3,6 +3,7 @@ package christmas.controller;
 import christmas.model.Discount;
 import christmas.model.EventDate;
 import christmas.model.Menu;
+import christmas.model.OrderInput;
 import christmas.model.Orders;
 import christmas.model.Promotion;
 import christmas.repository.MenuBoard;
@@ -28,10 +29,20 @@ public class ChristmasEventController {
         List<Menu> menuBoard = makeMenuBoard();
         outputView.printStartMessage();
         EventDate eventDate = readVisitDate();
-        Orders orders = readOrders();
-        showOrderResult(orders, eventDate);
-        Discount discount = new Discount(orders.getMenus());
-        showBenefitResult(orders, discount, eventDate);
+
+    }
+
+    public void generateOrderedMenus(List<Menu> menuBoard) {
+        String inputOrder = inputView.getOrders();
+        List<String> menus = List.of(inputOrder.split(",", -1));
+        List<OrderInput> orderInputs = generateOrderInput(menus);
+        List<OrderedMenu> orderedMenus = generateOrderedMenus(orderInputs, menuBoard);
+    }
+
+    public List<OrderInput> generateOrderInput(List<String> inputs) {
+        return inputs.stream()
+                .map(OrderInput::new)
+                .toList();
     }
 
     private void showBenefitResult(Orders orders, Discount discount, EventDate eventDate) {
