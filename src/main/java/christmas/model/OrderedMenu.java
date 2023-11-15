@@ -19,8 +19,20 @@ public class OrderedMenu {
         }
     }
 
+    public long calculateMenuPrice() {
+        return menu.getPrice() * quantity;
+    }
+
     public boolean isDrinkCategory() {
         return menu.isDrinkCategory();
+    }
+
+    public boolean isDessertCategory() {
+        return menu.isDessertCategory();
+    }
+
+    public boolean isMainCategory() {
+        return menu.isMainCategory();
     }
 
     public Menu getMenu() {

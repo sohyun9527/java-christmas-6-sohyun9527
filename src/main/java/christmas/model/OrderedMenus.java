@@ -21,6 +21,26 @@ public class OrderedMenus {
         validateAllCategoryIsDrink(menus);
     }
 
+    public long totalAmount() {
+        return menus.stream()
+                .mapToLong(OrderedMenu::calculateMenuPrice)
+                .sum();
+    }
+
+    public long countDessertCategory() {
+        return menus.stream()
+                .filter(OrderedMenu::isDessertCategory)
+                .mapToInt(OrderedMenu::getQuantity)
+                .sum();
+    }
+
+    public long countMainCategory() {
+        return menus.stream()
+                .filter(OrderedMenu::isMainCategory)
+                .mapToInt(OrderedMenu::getQuantity)
+                .sum();
+    }
+
     public void validateDuplicateMane(List<OrderedMenu> menus) {
         Set<Menu> uniqueMenus = menus.stream().map(OrderedMenu::getMenu)
                 .collect(Collectors.toSet());
@@ -47,10 +67,4 @@ public class OrderedMenus {
         }
     }
 
-    // 중복 검사
-    // 음료 카테고리 검사
-    // 총 개수 검사
-    // 총 금액 반환
-    // 총 메인 카테고리 개수 반환
-    // 총 디저트 카테고리 개수 반환
 }
