@@ -30,4 +30,13 @@ public class OrderInput {
         }
     }
 
+    //메뉴, quantity 갖고 OrderedMenu 만들기
+    public OrderedMenu makeOrderedMenu(List<Menu> menuBoard) {
+        return menuBoard.stream()
+                .filter(menu -> menu.getName().equals(name))
+                .findFirst()
+                .map(menu -> new OrderedMenu(menu, quantity))
+                .orElseThrow(OrderException::new);
+    }
+
 }
