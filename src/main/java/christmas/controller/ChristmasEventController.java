@@ -1,14 +1,18 @@
 package christmas.controller;
 
-import christmas.model.EventDate;
+import christmas.model.Benefit;
+import christmas.model.DiscountType;
+import christmas.model.EventDay;
 import christmas.model.Menu;
 import christmas.model.OrderInput;
 import christmas.model.OrderedMenu;
 import christmas.model.OrderedMenus;
+import christmas.model.Promotion;
 import christmas.repository.MenuBoard;
 import christmas.util.EventDateConverter;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -16,6 +20,7 @@ import java.util.stream.Stream;
 public class ChristmasEventController {
     private final InputView inputView;
     private final OutputView outputView;
+    private Benefit benefit = new Benefit();
 
     public ChristmasEventController(InputView inputView,
                                     OutputView outputView) {
@@ -26,9 +31,22 @@ public class ChristmasEventController {
     public void run() {
         List<Menu> menuBoard = makeMenuBoard();
         outputView.printStartMessage();
-        EventDate eventDate = readVisitDate();
+        EventDay eventDay = readVisitDate();
         OrderedMenus menus = generateOrderedMenus(menuBoard);
 
+        EnumMap<DiscountType, Long> result = benefit.result(eventDay, menus);
+        showOrderResult(eventDay, menus);
+
+
+    }
+
+    public void showOrderResult(EventDay eventDay, OrderedMenus menus) {
+        long orderTotalAmount = menus.totalAmount();
+
+        outputView.printVisitDateMessage(eventDay.getDay());
+        outputView.printOrderedMenus(menus.getOrderedMenus());
+        outputView.printBVeforeDiscountAmount(orderTotalAmount);
+        outputView.printPromotionResult(Promotion.promotionEvent(orderTotalAmount));
     }
 
     public OrderedMenus generateOrderedMenus(List<Menu> menuBoard) {
@@ -55,11 +73,11 @@ public class ChristmasEventController {
     }
 
 
-    private EventDate readVisitDate() {
+    private EventDay readVisitDate() {
         return readUntilValidValue(() -> {
             String dateInput = inputView.getVisitDate();
             int date = EventDateConverter.convertDate(dateInput);
-            return new EventDate(date);
+            return new EventDay(date);
         });
     }
 
