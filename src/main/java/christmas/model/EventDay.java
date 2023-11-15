@@ -6,16 +6,16 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class EventDate {
+public class EventDay {
     private static final int CHRISTMAS_DATE = 25;
     private static final int YEAR = 2023;
     private static final int START_DAY = 1;
     private static final int END_DAY = 31;
-    private final int date;
+    private final int day;
 
-    public EventDate(int date) {
-        validateDateRange(date);
-        this.date = date;
+    public EventDay(int day) {
+        validateDateRange(day);
+        this.day = day;
     }
 
     private void validateDateRange(int date) {
@@ -25,7 +25,7 @@ public class EventDate {
     }
 
     public boolean isBeforeChristmas() {
-        return date <= 25;
+        return day <= 25;
     }
 
     public boolean isWeekend() {
@@ -33,16 +33,16 @@ public class EventDate {
         return dayOfWeek.equals(DayOfWeek.FRIDAY) || dayOfWeek.equals(DayOfWeek.SATURDAY);
     }
 
-    public boolean isStarDate() {
-        return getLocalDate().equals(DayOfWeek.SUNDAY) || date == CHRISTMAS_DATE;
+    public boolean isSpecialDay() {
+        return getLocalDate().equals(DayOfWeek.SUNDAY) || day == CHRISTMAS_DATE;
     }
 
     private DayOfWeek getLocalDate() {
-        LocalDate localDate = LocalDate.of(YEAR, Month.DECEMBER, date);
+        LocalDate localDate = LocalDate.of(YEAR, Month.DECEMBER, day);
         return localDate.getDayOfWeek();
     }
 
-    public int getDate() {
-        return date;
+    public int getDay() {
+        return day;
     }
 }
