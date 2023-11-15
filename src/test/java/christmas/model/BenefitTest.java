@@ -60,4 +60,16 @@ class BenefitTest {
         assertThat(result.get(DiscountType.WEEKDAY)).isEqualTo(-(10 * 2023));
         assertThat(result.get(DiscountType.CHRISTMAS)).isEqualTo(-(3400));
     }
+
+    @DisplayName("28일 할인 - 평일")
+    @Test
+    void weekdayDiscount() {
+        OrderedMenus orderedMenus = new OrderedMenus(List.of(mainOrder, dessertOrder, drinkOrder));
+        EventDay eventDay = new EventDay("28");
+        EnumMap<DiscountType, Long> result = benefit.result(eventDay, orderedMenus);
+
+        assertThat(result.get(DiscountType.WEEKEND)).isEqualTo(0);
+        assertThat(result.get(DiscountType.WEEKDAY)).isEqualTo(-(10 * 2023));
+        assertThat(result.get(DiscountType.CHRISTMAS)).isEqualTo(0);
+    }
 }
