@@ -1,10 +1,31 @@
 package christmas.model;
 
+import christmas.model.exception.OrderException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class OrderedMenus {
+    private static final int MAXIMUM_ORDER_QUANTITY = 20;
     private final List<OrderedMenu> menus;
 
-    public OrderedMenu(List<OrderedMenu> menus) {
+    public OrderedMenus(List<OrderedMenu> menus) {
+        validate(menus);
         this.menus = menus;
+    }
+
+    public void validate(List<OrderedMenu> menus) {
+        validateDuplicateMane(menus);
+        validateOverQuantity(menus);
+        validateAllCategoryIsDrink(menus);
+    }
+
+    public void validateDuplicateMane(List<OrderedMenu> menus) {
+        Set<Menu> uniqueMenus = menus.stream().map(OrderedMenu::getMenu)
+                .collect(Collectors.toSet());
+        if (uniqueMenus.size() != menus.size()) {
+            throw new OrderException();
+        }
     }
 
     // 중복 검사

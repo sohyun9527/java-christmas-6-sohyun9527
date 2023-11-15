@@ -17,4 +17,12 @@ public class OrderedMenu {
             throw new OrderException();
         }
     }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

@@ -4,6 +4,8 @@ import christmas.model.Discount;
 import christmas.model.EventDate;
 import christmas.model.Menu;
 import christmas.model.OrderInput;
+import christmas.model.OrderedMenu;
+import christmas.model.OrderedMenus;
 import christmas.model.Orders;
 import christmas.model.Promotion;
 import christmas.repository.MenuBoard;
@@ -32,11 +34,19 @@ public class ChristmasEventController {
 
     }
 
-    public void generateOrderedMenus(List<Menu> menuBoard) {
+    public OrderedMenus generateOrderedMenus(List<Menu> menuBoard) {
         String inputOrder = inputView.getOrders();
         List<String> menus = List.of(inputOrder.split(",", -1));
         List<OrderInput> orderInputs = generateOrderInput(menus);
         List<OrderedMenu> orderedMenus = generateOrderedMenus(orderInputs, menuBoard);
+
+        return new OrderedMenus(orderedMenus);
+    }
+
+    public List<OrderedMenu> generateOrderedMenus(List<OrderInput> orderInputs, List<Menu> menuBoard) {
+        return orderInputs.stream()
+                .map(input -> input.makeOrderedMenu(menuBoard))
+                .toList();
     }
 
     public List<OrderInput> generateOrderInput(List<String> inputs) {
