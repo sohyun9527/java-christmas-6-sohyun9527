@@ -35,8 +35,8 @@ class EventDayTest {
         EventDay dates = new EventDay(input);
         EventDay weekDay = new EventDay(13);
 
-        assertTrue(dates.isStarDate());
-        assertFalse(weekDay.isStarDate());
+        assertTrue(dates.isSpecialDay());
+        assertFalse(weekDay.isSpecialDay());
     }
 
     @DisplayName("25일 이전이라면 true 반환")
