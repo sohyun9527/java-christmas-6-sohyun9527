@@ -15,7 +15,7 @@ public class OrderedMenus {
         this.orderedMenus = orderedMenus;
     }
 
-    public void validate(List<OrderedMenu> menus) {
+    private void validate(List<OrderedMenu> menus) {
         validateDuplicateMane(menus);
         validateOverQuantity(menus);
         validateAllCategoryIsDrink(menus);
@@ -41,7 +41,7 @@ public class OrderedMenus {
                 .sum();
     }
 
-    public void validateDuplicateMane(List<OrderedMenu> menus) {
+    private void validateDuplicateMane(List<OrderedMenu> menus) {
         Set<Menu> uniqueMenus = menus.stream().map(OrderedMenu::getMenu)
                 .collect(Collectors.toSet());
         if (uniqueMenus.size() != menus.size()) {

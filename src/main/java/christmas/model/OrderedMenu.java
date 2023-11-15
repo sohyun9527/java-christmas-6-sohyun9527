@@ -14,7 +14,7 @@ public class OrderedMenu {
         this.quantity = quantity;
     }
 
-    public void validateQuantityCount(int quantity) {
+    private void validateQuantityCount(int quantity) {
         if (quantity < MINIMUM_QUANTITY) {
             throw new OrderException();
         }

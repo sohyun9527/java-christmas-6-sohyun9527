@@ -16,13 +16,13 @@ public class OrderInput {
         this.quantity = convertQuantity(nameAndQuantity.get(1));
     }
 
-    public void validateInputMenuSize(List<String> nameAndQuantity) {
+    private void validateInputMenuSize(List<String> nameAndQuantity) {
         if (nameAndQuantity.size() != VALID_SIZE) {
             throw new OrderException();
         }
     }
 
-    public int convertQuantity(String input) {
+    private int convertQuantity(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException exception) {
